@@ -1,0 +1,306 @@
+extends base
+
+block append head
+    script.
+      // scroll-block
+      var tc = document.querySelectorAll(".scroll-block");
+      for (var t = 0; t < tc.length; t++) {
+        new SimpleBar(tc[t]);
+      }
+      // quantity start
+      function increaseValue(counter) {
+        var value = parseInt(document.getElementById(counter).value, 10);
+        value = isNaN(value) ? 0 : value;
+        value++;
+        document.getElementById(counter).value = value;
+      }
+
+      function decreaseValue(counter) {
+        var value = parseInt(document.getElementById(counter).value, 10);
+        value = isNaN(value) ? 0 : value;
+        value < 1 ? (value = 1) : "";
+        value--;
+        document.getElementById(counter).value = value;
+      }
+    
+block content
+      .pc-container
+        .pc-content
+          .page-header
+            .page-block
+              .row.align-items-center
+                .col-md-12
+                  .page-header-title
+                    h2.mb-0 Detalhe do acessório
+          .row
+            .col-sm-12
+              .card
+                .card-body
+                  .row
+                    .col-md-6
+                      .sticky-md-top.product-sticky
+                        #carouselExampleCaptions.carousel.slide.ecomm-prod-slider(data-bs-ride='carousel')
+                          .carousel-inner.bg-light.rounded.position-relative
+                            .card-body.position-absolute.end-0.top-0
+                              .form-check.prod-likes
+                                input.form-check-input(type='checkbox')
+                                svg.feather.feather-heart.prod-likes-icon(xmlns='http://www.w3.org/2000/svg', width='24', height='24', viewBox='0 0 24 24', fill='none', stroke='currentColor', stroke-width='2', stroke-linecap='round', stroke-linejoin='round')
+                                  path(d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z')
+                            .card-body.position-absolute.bottom-0.end-0
+                              ul.list-inline.ms-auto.mb-0.prod-likes
+                                li.list-inline-item.m-0
+                                  a.avtar.avtar-xs.text-white.text-hover-primary(href='#')
+                                    i.ti.ti-zoom-in.f-18
+                                li.list-inline-item.m-0
+                                  a.avtar.avtar-xs.text-white.text-hover-primary(href='#')
+                                    i.ti.ti-zoom-out.f-18
+                                li.list-inline-item.m-0
+                                  a.avtar.avtar-xs.text-white.text-hover-primary(href='#')
+                                    i.ti.ti-rotate-clockwise.f-18
+                            .carousel-item
+                            each image, index in product.images
+                              .carousel-item(class=(index === 0 ? 'active' : ''))
+                                img.d-block.w-100(src=`/img/products/${image}`, alt='Product images') 
+                          ol.carousel-indicators.position-relative.product-carousel-indicators.my-sm-3.mx-0
+                            each image, index in product.images
+                              li.w-25.h-auto(class=(index === 0 ? 'active' : ''))(data-bs-target='#carouselExampleCaptions', data-bs-slide-to=index)
+                                img.d-block.wid-50.rounded(src=`/img/products/${image}`, alt='Product images')
+                    form.add-to-cart.col-md-6
+                      span.badge.bg-success.f-14 No Stock
+                      h5.my-3
+                        |#{product.name} 
+                        | 
+                      .star.f-18.mb-3
+                        - const fullStars = Math.floor(product.ratingsAverage); // Estrelas inteiras
+                        - const halfStar = product.ratingsAverage % 1 >= 0.5; // Meia estrela
+                        - const emptyStars = 5 - fullStars - (halfStar ? 1 : 0); // Estrelas vazias
+                        each star in Array(fullStars)
+                          i.fas.fa-star.text-warning
+                        if halfStar  
+                          i.fas.fa-star-half-alt.text-warning 
+                        i.far.fa-star.text-muted  
+                        each star in Array(emptyStars)
+                          i.fas.fa-star.text-warning
+                        span.text-sm.text-muted (#{product.ratingsAverage || 'N/A'})
+                      h5.mt-4.mb-3.f-w-500 Sobre este item
+                      ul
+                        li.mb-2 #{product.description}
+                        li.mb-2 #{product.stockQuantity} unidades disponíveis
+                        li.mb-2 categória do acessório - #{product.category} 
+                        li.mb-2 gênero - #{product.gender} 
+                      .mb-3.row
+                        label.col-form-label.col-lg-3.col-sm-12
+                          | Cores 
+                          span.text-danger *
+                        .col-lg-6.col-md-12.col-sm-12.d-flex.align-items-center
+                           each color, index in product.colors
+                            .form-check.form-check-inline.color-checkbox.mb-0
+                              input.form-check-input(type='radio', name='product_color', value=color, id='color-#{index}' checked=(index === 0 ? 'checked' : ''))
+                              i.fas.fa-circle(style=`color: ${color};`)
+                      .mb-3.row.align-items-center
+                        label.col-form-label.col-lg-3.col-sm-12
+                          span.d-block Tamanho Disponivel
+                        .col-lg-9.col-md-12.col-sm-12
+                          .row.g-2
+                            .col-auto
+                              input#btnrdolite1.btn-check(type='radio', name='btn_radio2', checked='checked')
+                              label.btn.btn-sm.btn-light-primary(for='btnrdolite1') #{product.sizes}
+                            .col-auto
+                              input#btnrdolite2.btn-check(type='radio', name='btn_radio2')
+                              label.btn.btn-sm.btn-light-primary(for='btnrdolite2') M&eacute;dio
+                            .col-auto
+                              input#btnrdolite3.btn-check(type='radio', name='btn_radio2')
+                              label.btn.btn-sm.btn-light-primary(for='btnrdolite3') Grande
+                      .mb-3.row
+                        label.col-form-label.col-lg-3.col-sm-12
+                          | Quantidade 
+                          span.text-danger *
+                        .col-lg-6.col-md-12.col-sm-12
+                          .btn-group.btn-group-sm.mb-2.border(role='group')
+                            button#decrease.btn.btn-link-secondary(type='button', onclick="decreaseValue('number')")
+                              i.ti.ti-minus
+                            input#number.wid-35.text-center.border-0.m-0.form-control.rounded-0.shadow-none(type='text', name='quantity' value='0')
+                            input#productId(type='hidden', name='productId' value=`${product._id}`)
+                            button#increase.btn.btn-link-secondary(type='button', onclick="increaseValue('number')")
+                              i.ti.ti-plus
+                      h3.mb-4
+                        if product.priceDiscount
+                          b #{product.priceDiscount} MZN
+                          span.text-sm.text-muted.f-w-400.text-decoration-line-through #{product.price} MZN
+                        else
+                          span #{product.price} MZN
+                      .row
+                        if user
+                          .col-6
+                            .d-grid
+                              button.btn.btn-primary.buy-btn(type='button')
+                                | Comprar 
+                          .col-6
+                            .d-grid
+                              button.btn.btn-outline-secondary#cart-product( type='submit')
+                                | Adicionar ao carrinho
+                        else 
+                          .col-6
+                            .d-grid
+                              button.btn.btn-primary.disabled(type='button')
+                                | Comprar 
+                          .col-6
+                            .d-grid
+                              button.btn.btn-outline-secondary#cart-product.disabled( type='submit')
+                                | Adicionar ao carrinho
+
+              .card
+                .card-header.pb-0
+                  ul#myTab.nav.nav-tabs.profile-tabs.mb-0(role='tablist')
+                    li.nav-item(role='presentation')
+                      a#ecomtab-tab-1.nav-link.active(data-bs-toggle='tab', href='#ecomtab-1', role='tab', aria-controls='ecomtab-1', aria-selected='true') Caracter&iacute;sticas
+                    li.nav-item(role='presentation')
+                      a#ecomtab-tab-3.nav-link(data-bs-toggle='tab', href='#ecomtab-3', role='tab', aria-controls='ecomtab-3', aria-selected='false', tabindex='-1') Vis&atilde;o geral
+                    li.nav-item(role='presentation')
+                      a#ecomtab-tab-4.nav-link(data-bs-toggle='tab', href='#ecomtab-4', role='tab', aria-controls='ecomtab-4', aria-selected='false', tabindex='-1')
+                        | Avalia&ccedil;&otilde;es
+                        span.badge.bg-light-primary.rounded-pill.px-2.ms-2 275
+                .card-body
+                  .tab-content
+                    #ecomtab-1.tab-pane.show.active(role='tabpanel', aria-labelledby='ecomtab-tab-1')
+                      .table-responsive
+                        table.table.table-borderless
+                          tbody
+                            tr
+                              td.text-muted.py-1
+                                | Par&aacute; ideal:
+                              td.py-1 #{product.name}
+                            tr
+                              td.text-muted.py-1 Ideal para:
+                              td.py-1 #{product.gender}
+                    #ecomtab-3.tab-pane(role='tabpanel', aria-labelledby='ecomtab-tab-3')
+                      .table-responsive
+                        p.text-muted #{product.name} 
+                        p.text-muted #{product.description} 
+                    #ecomtab-4.tab-pane(role='tabpanel', aria-labelledby='ecomtab-tab-4')
+                      .card
+                        .card-body
+                          .row.justify-content-between.align-items-center
+                            .col-xxl-4.col-xl-5
+                              h2.mb-3
+                                b
+                                  | 3.5
+                                  small.text-muted.f-18 /5
+                              p.mb-2.text-muted Baseado em 275 avalia&ccedil;&otilde;es
+                              .star.mb-3.f-20
+                                i.fas.fa-star.text-warning
+                                i.fas.fa-star.text-warning
+                                i.fas.fa-star.text-warning
+                                i.fas.fa-star-half-alt.text-warning
+                                i.far.fa-star.text-muted
+                            .col-xxl-4.col-xl-5
+                              .d-flex.align-items-center
+                                .w-100
+                                  .row.align-items-center.my-2
+                                    .col
+                                      .progress(style='height: 4px')
+                                        .progress-bar.bg-warning(style='width: 30%')
+                                    .col-auto
+                                      p.mb-0.text-muted 5 Estrelas
+                                  .row.align-items-center.my-2
+                                    .col
+                                      .progress(style='height: 4px')
+                                        .progress-bar.bg-warning(style='width: 60%')
+                                    .col-auto
+                                      p.mb-0.text-muted 4 Estrelas
+                                  .row.align-items-center.my-2
+                                    .col
+                                      .progress(style='height: 4px')
+                                        .progress-bar.bg-warning(style='width: 75%')
+                                    .col-auto
+                                      p.mb-0.text-muted 3 Estrelas
+                                  .row.align-items-center.my-2
+                                    .col
+                                      .progress(style='height: 4px')
+                                        .progress-bar.bg-warning(style='width: 40%')
+                                    .col-auto
+                                      p.mb-0.text-muted 2 Estrelas
+                                  .row.align-items-center
+                                    .col
+                                      .progress(style='height: 4px')
+                                        .progress-bar.bg-warning(style='width: 55%')
+                                    .col-auto
+                                      p.mb-0.text-muted 1 Estrelas
+                      .card
+                        .card-body
+                          .d-flex.align-items-start
+                            .chat-avtar
+                              img.img-radius.img-fluid.wid-40(src='/images/user/avatar-1.jpg', alt='User image')
+                              .bg-success.chat-badge
+                            .flex-grow-1.ms-3
+                              h6.mb-1 Harriet Wilson
+                              p.text-muted.text-sm.mb-1 2 horas atr&aacute;s
+                              .star
+                                i.fas.fa-star.text-warning
+                                i.fas.fa-star.text-warning
+                                i.fas.fa-star.text-warning
+                                i.fas.fa-star-half-alt.text-warning
+                                i.far.fa-star.text-muted
+                              p.mb-0.text-muted.mt-1
+                                | Lorem Ipsum is simply dummy text of the printing
+                                | and typesetting industry. Lorem Ipsum has been the
+                                | industry&apos;s standard dummy text ever since the
+                                | 1500.
+                      .card
+                        .card-body
+                          .d-flex.align-items-start
+                            .chat-avtar
+                              img.img-radius.img-fluid.wid-40(src='/images/user/avatar-2.jpg', alt='User image')
+                              .bg-success.chat-badge
+                            .flex-grow-1.ms-3
+                              h6.mb-1 Lou Olson
+                              p.text-muted.text-sm.mb-1 2 horas atr&aacute;s
+                              .star
+                                i.fas.fa-star.text-warning
+                                i.fas.fa-star.text-warning
+                                i.fas.fa-star-half-alt.text-warning
+                                i.far.fa-star.text-muted
+                                i.far.fa-star.text-muted
+                              p.mb-2.text-muted.mt-1
+                                | Lorem Ipsum is simply dummy text of the printing
+                                | and typesetting industry. Lorem Ipsum has been the
+                                | industry&apos;s standard dummy text ever since the
+                                | 1500.
+                              a.link-primary.mb-1(href='#') https://phoenixcoded.net/
+                      .text-center.mt-3
+                        button.btn.btn-link-primary
+                          | Ver mais coment&aacute;rios
+              .card
+                .card-header
+                  h5 Acessórios Relacionados
+                .card-body
+                  .row
+                    each relatedProduct, index in relatedProducts
+                      .col-sm-6.col-xl-3
+                        .card.product-card
+                          .card-img-top
+                            a(href=`/acessorio/${relatedProduct.slug}`)
+                              img.img-prod.img-fluid(src=`/img/products/${relatedProduct.imageCover}`, alt='image')
+                            .card-body.position-absolute.end-0.top-0
+                              .form-check.prod-likes
+                                input.form-check-input(type='checkbox', checked='checked')
+                                svg.feather.feather-heart.prod-likes-icon(xmlns='http://www.w3.org/2000/svg', width='24', height='24', viewBox='0 0 24 24', fill='none', stroke='currentColor', stroke-width='2', stroke-linecap='round', stroke-linejoin='round')
+                                  path(d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z')
+                            .btn-prod-cart.card-body.position-absolute.end-0.bottom-0
+                              .btn.btn-warning
+                                svg.pc-icon
+                                  use(xlink:href='#custom-bag')
+                          .card-body
+                            a(href='#')
+                              p.prod-content.mb-0.text-muted #{relatedProduct.name}
+                            .d-flex.align-items-center.justify-content-between.mt-2
+                              h4.mb-0.text-truncate
+                                if relatedProduct.priceDiscount
+                                  b #{relatedProduct.priceDiscount} MZN
+                                  span.text-sm.text-muted.f-w-400.text-decoration-line-through #{relatedProduct.price} MZN
+                                else
+                                  span #{relatedProduct.price} MZN  
+                              .prod-color
+                                each color in relatedProduct.colors
+                                  span(style=`background-color: ${color};`)
+                              

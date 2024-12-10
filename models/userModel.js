@@ -6,14 +6,23 @@ const bcrypt = require('bcryptjs');
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, 'Please tell us your name!']
+    required: [true, 'Por favor, diga-nos o seu nome!']
   },
   email: {
     type: String,
-    required: [true, 'Please provide your email'],
+    required: [true, 'Por favor, forneça seu e-mail'],
     unique: true,
     lowercase: true,
-    validate: [validator.isEmail, 'Please provide a valid email']
+    validate: [validator.isEmail, 'Forneça um e-mail válido']
+  },
+  contact: {
+    type: String,
+    required: [true, 'Por favor, forneça seu contacto'],
+    unique: true
+  },
+  address: {
+    type: String,
+    required: [true, 'Por favor, forneça seu endereço']
   },
   photo: {
     type: String,
@@ -21,24 +30,37 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['user', 'guide', 'lead-guide', 'admin'],
+    enum: ['user', 'admin'],
     default: 'user'
   },
   password: {
     type: String,
-    required: [true, 'Please provide a password'],
+    required: [true, 'Forneça uma senha'],
     minlength: 8,
     select: false
   },
   passwordConfirm: {
     type: String,
-    required: [true, 'Please confirm your password'],
+    required: [true, 'Por favor confirme sua senha'],
     validate: {
       // This only works on CREATE and SAVE!!!
       validator: function(el) {
         return el === this.password;
       },
-      message: 'Passwords are not the same!'
+      message: 'As senhas não são iguais!'
+    }
+  },
+  birthDate: {
+    type: Date,
+    required: [true, 'Por favor, forneça a sua data de nascimento']
+  },
+  startDate: {
+    type: Date,
+    default: Date.now,
+    get: function(value) {
+      return value
+        ? `${value.getDate()}/${value.getMonth() + 1}/${value.getFullYear()}`
+        : value;
     }
   },
   passwordChangedAt: Date,

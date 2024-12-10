@@ -12,7 +12,7 @@ module.exports = class Email {
 
   newTransport() {
     if (process.env.NODE_ENV === 'production') {
-      // G-EMAIL
+      // Sendgrid
       return nodemailer.createTransport({
         service: process.env.SERVICE,
         auth: {
@@ -55,13 +55,13 @@ module.exports = class Email {
   }
 
   async sendWelcome() {
-    await this.send('welcome', 'Bem-vindo à Família Natours!');
+    await this.send('welcome', 'Bem-vindo à Família Wenner!');
   }
 
   async sendPasswordReset() {
     await this.send(
       'passwordReset',
-      'Seu token de redefinição de senha (válido por apenas 10 minutos)'
+      'Your password reset token (valid for only 10 minutes)'
     );
   }
 };

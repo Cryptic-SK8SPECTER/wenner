@@ -1,45 +1,198 @@
 extends base
 
 block content
-  main.main
-    .card-container
-    
-      each tour in tours
-        .card
-          .card__header
-            .card__picture
-              .card__picture-overlay &nbsp;
-              img.card__picture-img(src=`/img/tours/${tour.imageCover}`, alt=`${tour.name}`)
-            h3.heading-tertirary
-              span= tour.name
-
-          .card__details
-            h4.card__sub-heading= `${tour.difficulty} ${tour.duration}-dia turístico`
-            p.card__text= tour.summary
-            .card__data
-              svg.card__icon
-                use(xlink:href='/img/icons.svg#icon-map-pin')
-              span= tour.startLocation.description
-            .card__data
-              svg.card__icon
-                use(xlink:href='/img/icons.svg#icon-calendar')
-              span= tour.startDates[0].toLocaleString('en-us', {month: 'long', year: 'numeric'})
-            .card__data
-              svg.card__icon
-                use(xlink:href='/img/icons.svg#icon-flag')
-              span= `${tour.locations.length} paradas`
-            .card__data
-              svg.card__icon
-                use(xlink:href='/img/icons.svg#icon-user')
-              span= `${tour.maxGroupSize} pessoas`
-
-          .card__footer
-            p
-              span.card__footer-value= `${tour.price} MZN`
-              | 
-              span.card__footer-text por pessoa
-            p.card__ratings
-              span.card__footer-value= tour.ratingsAverage
-              | 
-              span.card__footer-text= `avaliação (${tour.ratingsQuantity})`
-            a.btn.btn--green.btn--small(href=`/tour/${tour.slug}`) Detalhes
+    .pc-container
+      .pc-content
+        .page-header
+          .page-block
+            .row.align-items-center
+              .col-md-12
+                .page-header-title
+                  h2.mb-0 Acessórios
+        .row
+          .col-sm-12
+            .ecom-wrapper
+              #offcanvas_mail_filter.offcanvas-xxl.offcanvas-start.ecom-offcanvas(tabindex='-1')
+                .offcanvas-body.p-0.sticky-xxl-top
+                  #ecom-filter.show.collapse.collapse-horizontal
+                    .ecom-filter
+                      .card
+                        .card-header.d-flex.align-items-center.justify-content-between
+                          h5 Filter
+                          a.avtar.avtar-s.btn-link-danger.btn-pc-default(href='#', data-bs-dismiss='offcanvas', data-bs-target='#offcanvas_mail_filter')
+                            i.ti.ti-x.f-20
+                        .scroll-block
+                          .card-body
+                            ul.list-group.list-group-flush
+                              li.list-group-item.px-0.py-2
+                                a.btn.border-0.px-0.text-start.w-100(data-bs-toggle='collapse', href='#filtercollapse1')
+                                  .float-end
+                                    i.ti.ti-chevron-down
+                                      | G&ecirc;nero
+                                #filtercollapse1.collapse.show
+                                  .py-3
+                                    .form-check.my-2
+                                      input#genderfilter1.form-check-input(type='checkbox', value='option1')
+                                      label.form-check-label(for='genderfilter1') Homem
+                                    .form-check.my-2
+                                      input#genderfilter2.form-check-input(type='checkbox', value='option2')
+                                      label.form-check-label(for='genderfilter2') Mulher
+                                    .form-check.my-2
+                                      input#genderfilter3.form-check-input(type='checkbox', value='option3')
+                                      label.form-check-label(for='genderfilter3') Crian&ccedil;as
+                              li.list-group-item.px-0.py-2
+                                a.btn.border-0.px-0.text-start.w-100(data-bs-toggle='collapse', href='#filtercollapse2')
+                                  .float-end
+                                    i.ti.ti-chevron-down 
+                                      | Categorias
+                                #filtercollapse2.collapse.show
+                                  .py-3
+                                    .form-check.my-2
+                                      input#categoryfilter1.form-check-input(type='checkbox', value='option1')
+                                      label.form-check-label(for='categoryfilter1') Todos
+                                    .form-check.my-2
+                                      input#categoryfilter2.form-check-input(type='checkbox', value='option2')
+                                      label.form-check-label(for='categoryfilter2') Eletr&ocirc;nicos
+                                    .form-check.my-2
+                                      input#categoryfilter3.form-check-input(type='checkbox', value='option3')
+                                      label.form-check-label(for='categoryfilter3') Moda
+                                    .form-check.my-2
+                                      input#categoryfilter4.form-check-input(type='checkbox', value='option1')
+                                      label.form-check-label(for='categoryfilter4') Cozinha
+                                    .form-check.my-2
+                                      input#categoryfilter5.form-check-input(type='checkbox', value='option2')
+                                      label.form-check-label(for='categoryfilter5') Livros
+                                    .form-check.my-2
+                                      input#categoryfilter6.form-check-input(type='checkbox', value='option3')
+                                      label.form-check-label(for='categoryfilter6') Brinquedos
+                              li.list-group-item.px-0.py-2
+                                a.btn.border-0.px-0.text-start.w-100(data-bs-toggle='collapse', href='#filtercollapse3')
+                                  .float-end
+                                    i.ti.ti-chevron-down
+                                      |  Cores
+                                #filtercollapse3.collapse.show
+                                  .py-3
+                                    .form-check.form-check-inline.color-checkbox
+                                      input.form-check-input(type='checkbox')
+                                      i.fas.fa-circle.text-primary
+                                    .form-check.form-check-inline.color-checkbox
+                                      input.form-check-input(type='checkbox')
+                                      i.fas.fa-circle.text-secondary
+                                    .form-check.form-check-inline.color-checkbox
+                                      input.form-check-input(type='checkbox')
+                                      i.fas.fa-circle.text-danger
+                                    .form-check.form-check-inline.color-checkbox
+                                      input.form-check-input(type='checkbox')
+                                      i.fas.fa-circle.text-success
+                                    .form-check.form-check-inline.color-checkbox
+                                      input.form-check-input(type='checkbox')
+                                      i.fas.fa-circle.text-warning
+                                    .form-check.form-check-inline.color-checkbox
+                                      input.form-check-input(type='checkbox')
+                                      i.fas.fa-circle.text-info
+                                    .form-check.form-check-inline.color-checkbox
+                                      input.form-check-input(type='checkbox')
+                                      i.fas.fa-circle.text-dark
+                              li.list-group-item.px-0.py-2
+                                a.btn.border-0.px-0.text-start.w-100(data-bs-toggle='collapse', href='#filtercollapse4')
+                                  .float-end
+                                    i.ti.ti-chevron-down
+                                      |  Pre&ccedil;o
+                                #filtercollapse4.collapse.show
+                                  .row.py-3
+                                    .col-6
+                                      .form-check.my-2
+                                        input#pricefilter1.form-check-input(type='radio', name='price', value='option1')
+                                        label.form-check-label(for='pricefilter1') Abaixo de 400 MZN
+                                      .form-check.my-2
+                                        input#pricefilter2.form-check-input(type='radio', name='price', value='option2')
+                                        label.form-check-label(for='pricefilter2') 400 MZN - 2000 MZN 
+                                      .form-check.my-2
+                                        input#pricefilter3.form-check-input(type='radio', name='price', value='option3')
+                                        label.form-check-label(for='pricefilter3') 2000 MZn - 10000 MZN
+                                    .col-6
+                                      .form-check.my-2
+                                        input#pricefilter4.form-check-input(type='radio', name='price', value='option1')
+                                        label.form-check-label(for='pricefilter4') 10000 MZN - 150000 MZN
+                                      .form-check.my-2
+                                        input#pricefilter5.form-check-input(type='radio', name='price', value='option2')
+                                        label.form-check-label(for='pricefilter5') 150000 - 25 000 MZN
+                                      .form-check.my-2
+                                        input#pricefilter6.form-check-input(type='radio', name='price', value='option3')
+                                        label.form-check-label(for='pricefilter6') Acima de 25 000 MZN
+                              li.list-group-item.px-0.py-2
+                                a.btn.border-0.px-0.text-start.w-100(data-bs-toggle='collapse', href='#filtercollapse5')
+                                  .float-end
+                                    i.ti.ti-chevron-down
+                                      |  Avalia&ccedil;&atilde;o
+                                #filtercollapse5.collapse.show
+                                  .py-3
+                                    .form-check.mb-2
+                                      input#chkratt1.form-check-input(type='checkbox', value='')
+                                      label.form-check-label(for='chkratt1') 4&starf; &amp; acima
+                                    .form-check.mb-2
+                                      input#chkratt2.form-check-input(type='checkbox', value='')
+                                      label.form-check-label(for='chkratt2') 3&starf; &amp; acima
+                                    .form-check.mb-2
+                                      input#chkratt3.form-check-input(type='checkbox', value='')
+                                      label.form-check-label(for='chkratt3') 2&starf; &amp; acima
+                                    .form-check.mb-2
+                                      input#chkratt4.form-check-input(type='checkbox', value='')
+                                      label.form-check-label(for='chkratt4') 1&starf; &amp; acima
+                              li.list-group-item.px-0.py-2
+                                a.btn.btn-light-danger.w-100(href='#') Limpar tudo
+              .ecom-content
+                .card
+                  .card-body.p-3
+                    .d-sm-flex.align-items-center
+                      ul.list-inline.me-auto.my-1
+                        li.list-inline-item
+                          .form-search
+                            i.ti.ti-search
+                            input.form-control(type='search', placeholder='Search Products')
+                      ul.list-inline.ms-auto.my-1
+                        li.list-inline-item
+                          select.form-select
+                            option Pre&ccedil;o: alto a baixo
+                            option Pre&ccedil;o: baixo a alto
+                            option Popularidade
+                            option Desconto
+                            option Novidades
+                        li.list-inline-item.align-bottom
+                          a.d-inline-flex.d-xxl-none.btn.btn-link-secondary.align-items-center(href='#', data-bs-toggle='offcanvas', data-bs-target='#offcanvas_mail_filter')
+                            i.ti.ti-filter.f-16
+                            |  Filtro
+                          a.d-none.d-xxl-inline-flex.btn.btn-link-secondary.align-items-center(href='#', data-bs-toggle='collapse', data-bs-target='#ecom-filter')
+                            i.ti.ti-filter.f-16
+                            |  Filtro
+                .row
+                   each product, index in products  
+                    .col-sm-6.col-xl-4
+                      .card.product-card
+                        .card-img-top
+                          a(href=`/acessorio/${product.slug}`)
+                            img.img-prod.img-fluid(src=`/img/products/${product.imageCover}`, alt='image')
+                          .card-body.position-absolute.end-0.top-0
+                            .form-check.prod-likes
+                              input.form-check-input(type='checkbox')
+                              i.prod-likes-icon(data-feather='heart')
+                          .btn-prod-cart.card-body.position-absolute.end-0.bottom-0
+                            .btn.btn-warning
+                              svg.pc-icon
+                                use(xlink:href='#custom-bag')
+                        .card-body
+                          a(href=`/acessório/${product.slug}`)
+                            p.prod-content.mb-0.text-muted #{product.name}
+                          .d-flex.align-items-center.justify-content-between.mt-2
+                            h4.mb-0.text-truncate
+                              if product.priceDiscount
+                                b #{product.priceDiscount} MZN
+                                span.text-sm.text-muted.f-w-400.text-decoration-line-through #{product.price} MZN
+                              else
+                                span #{product.price} MZN
+                            .prod-color
+                              //- span(style=`background-color: #8b1313;`)
+                              each color in product.colors
+                                span(style=`background-color: ${color};`)
+            // [ sample-page ] end
+          // [ Main Content ] end

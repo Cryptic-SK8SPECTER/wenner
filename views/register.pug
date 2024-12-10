@@ -1,22 +1,84 @@
-extends base
+doctype html
+html(lang='en')
+  // [Head] start
+  head
+    meta(charset='utf-8')
+    meta(name='viewport' content='width=device-width,initial-scale=1,user-scalable=0,minimal-ui')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    link(rel='icon' href='/images/logo-1 (1).ico' type='image/x-icon')
+    link(rel='stylesheet' href='/fonts/phosphor/duotone/style.css')
+    link(rel='stylesheet' href='/fonts/tabler-icons.min.css')
+    link(rel='stylesheet' href='/fonts/feather.css')
+    link(rel='stylesheet' href='/fonts/fontawesome.css')
+    link(rel='stylesheet' href='/fonts/material.css')
+    link#main-style-link(rel='stylesheet' href='/css/style.css')
+    link(rel='stylesheet' href='/css/style-preset.css')
 
-block content
-  main.main
-    .login-form
-      h2.heading-secondary.ma-bt-lg Crie uma nova conta
-      form.form.form-sign-up--data
-        .form__group
-          label.form__label(for='name') Nome
-          input#name.form__input(type='text', placeholder='Informe o seu nome', required)
-        .form__group.ma-bt-md
-        .form__group
-          label.form__label(for='email') Email
-          input#email.form__input(type='email', placeholder='Informe o seu email', required)
-        .form__group.ma-bt-md
-          label.form__label(for='password') Senha
-          input#password.form__input(type='password', placeholder='Informe a sua senha', required, minlength='8')
-        .form__group.ma-bt-md
-          label.form__label(for='password') Confirmar Senha
-          input#passwordConfirm.form__input(type='password', placeholder='Confirme a sua senha', required, minlength='8')
-        .form__group
-          button.btn.btn--green(type='submit') Sign Up
+    title Wenner | #{title}
+
+  body(data-pc-preset='preset-1' data-pc-sidebar-caption='true' data-pc-layout='vertical' data-pc-direction='ltr' data-pc-theme_contrast='' data-pc-theme='light')
+
+    .auth-main
+      .auth-wrapper.v1
+        .auth-form
+          .card.my-5
+            .card-body
+              form.form-signup-user-data  
+                .text-center
+                  a(href='#')
+                    img(src='/images/logo-1.jpg', class='mb-4' width='140px', alt='img')
+                  
+                  .row
+                    .col-sm-6
+                      .form-floating.mb-3
+                        input#name.form-control(type='text', name='name' placeholder='Informe o seu nome')
+                        |  
+                        label(for='floatingInput') Nome
+                    .col-sm-6
+                      .form-floating.mb-3
+                        input#email.form-control(type='email', name='email' placeholder='Informe o seu e-mail')
+                        |  
+                        label(for='floatingInput') Email address
+                  .row
+                    .col-sm-6
+                      .form-floating.mb-3
+                        input#contact.form-control(type='text', name='contact' placeholder='Informe o seu contacto')
+                        |  
+                        label(for='floatingInput') Contacto
+                    .col-sm-6
+                      .form-floating.mb-3
+                        input#birthDate.form-control(type='date', name='birthDate' placeholder='Informe a sua data de nascimento')
+                        |  
+                        label(for='floatingInput') Data de Nascimento
+                  .mb-3
+                    .form-floating.mb-0
+                      input#address.form-control(type='text', name='address' placeholder='Informe o seu endereço')
+                      |  
+                      label(for='floatingInput') Endere&ccedil;o
+                  .mb-3
+                    .form-floating.mb-0
+                      input#password.form-control(type='password', name='password' placeholder='Informe a sua senha')
+                      |  
+                      label(for='floatingInput') Senha
+                  .mb-3
+                    .form-floating.mb-0
+                      input#passwordConfirm.form-control(type='password', name='passwordConfirm' placeholder='Confirme a sua senha')
+                      |  
+                      label(for='floatingInput') Confirmar Senha
+                .d-flex.mt-1.justify-content-between
+                  .form-check
+                    input#customCheckc1.form-check-input.input-dark(type='checkbox', checked='')
+                    label.form-check-label.text-muted(for='customCheckc1') Eu concordo com todos os Termos e Condi&ccedil;&otilde;es
+                .d-grid.mt-4
+                  button.btn.btn-dark(type='submit') Inscrever-se
+                .d-flex.justify-content-between.align-items-end.mt-4
+                  h6.f-w-500.mb-0 J&aacute; tem uma conta?
+                  a.link-dark(href='/login') Fa&ccedil;a login aqui
+                
+    // Required Js
+    script(src='/js/bundle.js')
+    .pct-c-btn
+      a(href='#' data-bs-toggle='offcanvas' data-bs-target='#offcanvas_pc_layout')
+        i.ph-duotone.ph-gear-six
+    #offcanvas_pc_layout.offcanvas.border-0.pct-offcanvas.offcanvas-end(tabindex='-1')
+      

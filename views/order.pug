@@ -1,0 +1,84 @@
+extends base
+
+block content
+    .pc-container
+      .pc-content
+        // [ breadcrumb ] start
+        .page-header
+          .page-block
+            .row.align-items-center
+              .col-md-12
+                .page-header-title
+                  h2.mb-0 Detalhes 
+        // [ breadcrumb ] end
+        // [ Main Content ] start
+        .row
+          .col-sm-12
+            .card
+              .card-body
+                .row.g-3
+                  .col-12
+                    .row.align-items-center.g-3
+                      .col-sm-6
+                        .d-flex.align-items-center.mb-2
+                          img.img-fluid(src='/images/logo-1.jpg', width='100px', alt='images')
+                          |  
+                          span.badge.bg-light-danger.rounded-pill.ms-2 #{order.status}
+                        p.mb-0 INV - 000457
+                      .col-sm-6.text-sm-end
+                        h6
+                          | Data 
+                          span.text-muted.f-w-400 #{formattedDate}
+                  .col-sm-6
+                    .border.rounded.p-3
+                      h6.mb-1 De:
+                      h5 #{order.user.name}
+                      p.mb-0 #{order.user.address}
+                      p.mb-0 #{order.user.contact}
+                      p.mb-0
+                        a.__cf_email__(href='/cdn-cgi/l/email-protection', data-cfemail='e98b9b88878d8687d9dea999808c9b8a8cc78a8684') #{order.user.email}
+                  .col-12
+                    .table-responsive
+                      table.table.table-hover.mb-0
+                        thead
+                          tr
+                            th #
+                            th Detalhes do produto
+                            th.text-end Qty
+                            th.text-end Pre&ccedil;o
+                            th.text-end Montante total
+                        tbody
+                          each product, index in order.products
+                            tr
+                              td #{index + 1}
+                              td
+                                .row
+                                  .col-auto.pe-0
+                                    img.wid-40.rounded(src=`/img/products/${product.product.imageCover}`, alt='user-image')
+                                  .col
+                                    h6.mb-1
+                                      | #{product.product.name}
+                                    p.text-muted.f-12.mb-0
+                                      | #{product.product.description}
+                              td.text-end #{product.quantity}
+                              td.text-end #{product.product.price} MZN
+                              td.text-end #{product.quantity * product.priceAtPurchase} MZN
+                    .text-start
+                      hr.mb-2.mt-1.border-secondary.border-opacity-50
+                  .col-12
+                    .invoice-total.ms-auto
+                      .row
+                        .col-6
+                          p.text-muted.mb-1.text-start Sub Total :
+                        .col-6
+                          p.mb-1.text-end -
+                        .col-6
+                          p.text-muted.mb-1.text-start Impostos :
+                        .col-6
+                          p.mb-1.text-end -
+                        .col-6
+                          p.f-w-600.mb-1.text-start Total Geral :
+                        .col-6
+                          p.f-w-600.mb-1.text-end #{order.totalPrice} MZN
+                  .col-12.mb-4
+        // [ Main Content ] end

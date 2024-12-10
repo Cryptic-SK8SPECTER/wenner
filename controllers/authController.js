@@ -40,6 +40,10 @@ exports.signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
     name: req.body.name,
     email: req.body.email,
+    address: req.body.address,
+    contact: req.body.contact,
+    role: req.body.role,
+    birthDate: req.body.birthDate,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm
   });
@@ -110,7 +114,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   if (currentUser.changedPasswordAfter(decoded.iat)) {
     return next(
       new AppError(
-        'O usuário alterou a senha recentemente! Por favor, faça login novamente.',
+        'O usuário alterou a senha recentemente! Faça login novamente.',
         401
       )
     );
@@ -155,7 +159,7 @@ exports.isLoggedIn = async (req, res, next) => {
 
 exports.restrictTo = (...roles) => {
   return (req, res, next) => {
-    // roles ['admin', 'lead-guide']. role='user'
+    // roles ['admin', 'user']. role='user'
     if (!roles.includes(req.user.role)) {
       return next(
         new AppError('Você não tem permissão para realizar esta ação', 403)
@@ -171,7 +175,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email });
   if (!user) {
     return next(
-      new AppError('Não há nenhum usuário com endereço de e-mail.', 404)
+      new AppError('Não há nenhum usuário com esse endereço de e-mail.', 404)
     );
   }
 
@@ -181,9 +185,10 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
   // 3) Send it to user's email
   try {
-    const resetURL = `${req.protocol}://${req.get(
-      'host'
-    )}/api/v1/users/resetPassword/${resetToken}`;
+    // const resetURL = `${req.protocol}://${req.get(
+    //   'host'
+    // )}/api/v1/users/resetPassword/${resetToken}`;
+    const resetURL = `${req.protocol}://${req.get('host')}/reset/${resetToken}`;
     await new Email(user, resetURL).sendPasswordReset();
 
     res.status(200).json({
@@ -218,7 +223,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 
   // 2) If token has not expired, and there is user, set the new password
   if (!user) {
-    return next(new AppError('O token é inválido ou expirou', 400));
+    return next(new AppError('Token is invalid or has expired', 400));
   }
   user.password = req.body.password;
   user.passwordConfirm = req.body.passwordConfirm;

@@ -1,12 +1,12 @@
 // review / rating / createdAt / ref to tour / ref to user
 const mongoose = require('mongoose');
-const Tour = require('./tourModel');
+const Product = require('./productModel');
 
 const reviewSchema = new mongoose.Schema(
   {
     review: {
       type: String,
-      required: [true, 'Review can not be empty!']
+      required: [true, 'O comentário não pode estar vazio!']
     },
     rating: {
       type: Number,
@@ -17,15 +17,15 @@ const reviewSchema = new mongoose.Schema(
       type: Date,
       default: Date.now
     },
-    tour: {
+    product: {
       type: mongoose.Schema.ObjectId,
-      ref: 'Tour',
-      required: [true, 'Review must belong to a tour.']
+      ref: 'Product',
+      required: [true, 'A avaliação deve pertencer a um produto.']
     },
     user: {
       type: mongoose.Schema.ObjectId,
       ref: 'User',
-      required: [true, 'Review must belong to a user']
+      required: [true, 'A avaliação precisa pertencer a um usuário']
     }
   },
   {
@@ -52,14 +52,14 @@ reviewSchema.pre(/^find/, function(next) {
   next();
 });
 
-reviewSchema.statics.calcAverageRatings = async function(tourId) {
+reviewSchema.statics.calcAverageRatings = async function(productId) {
   const stats = await this.aggregate([
     {
-      $match: { tour: tourId }
+      $match: { product: productId }
     },
     {
       $group: {
-        _id: '$tour',
+        _id: '$product',
         nRating: { $sum: 1 },
         avgRating: { $avg: '$rating' }
       }
@@ -68,12 +68,12 @@ reviewSchema.statics.calcAverageRatings = async function(tourId) {
   // console.log(stats);
 
   if (stats.length > 0) {
-    await Tour.findByIdAndUpdate(tourId, {
+    await Product.findByIdAndUpdate(productId, {
       ratingsQuantity: stats[0].nRating,
       ratingsAverage: stats[0].avgRating
     });
   } else {
-    await Tour.findByIdAndUpdate(tourId, {
+    await Product.findByIdAndUpdate(productId, {
       ratingsQuantity: 0,
       ratingsAverage: 4.5
     });
@@ -82,7 +82,7 @@ reviewSchema.statics.calcAverageRatings = async function(tourId) {
 
 reviewSchema.post('save', function() {
   // this points to current review
-  this.constructor.calcAverageRatings(this.tour);
+  this.constructor.calcAverageRatings(this.product);
 });
 
 // findByIdAndUpdate

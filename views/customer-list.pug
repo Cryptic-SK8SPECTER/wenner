@@ -1,0 +1,200 @@
+extends base
+
+block append head
+    script(src='/js/plugins/simple-datatables.js')
+    script.
+        document.addEventListener('DOMContentLoaded', () => {
+            const dataTable = new simpleDatatables.DataTable("#pc-dt-simple", {
+            sortable: false,
+            perPage: 5,
+            });
+        });
+    script.
+      document.addEventListener('DOMContentLoaded', () => {
+        const modal = document.getElementById('customer-modal');
+  
+        // Aguardando o evento show.bs.modal ser disparado
+        modal.addEventListener('show.bs.modal', (event) => {
+          // O botão que disparou o modal
+          const button = event.relatedTarget;
+          
+          // Extrair informações dos atributos data-*
+          const name = button.getAttribute('data-name');
+          const image = button.getAttribute('data-image');
+          const contact = button.getAttribute('data-contact');
+          const email = button.getAttribute('data-email');
+          const address = button.getAttribute('data-address');
+          const birth = button.getAttribute('data-birth');
+
+          // Preencher os elementos do modal com os dados extraídos
+          document.getElementById('modal-customer-name').textContent = name;
+          document.getElementById('modal-customer-name-2').textContent = name;
+          document.getElementById('modal-customer-image').src = image;
+          document.getElementById('modal-customer-contact').textContent = contact;
+          document.getElementById('modal-customer-contact-2').textContent = contact;
+          document.getElementById('modal-customer-email').textContent = email;
+          document.getElementById('modal-customer-email-2').textContent = email;
+          document.getElementById('modal-customer-address').textContent = address;
+          document.getElementById('modal-customer-address-2').textContent = address;
+          document.getElementById('modal-customer-birthDate').textContent = birth;
+
+          // Alterando a classe de status conforme o valor
+          const statusElement = document.getElementById('modal-customer-status');
+          if (status) {
+            statusElement.className = 'badge bg-success';
+          } else {
+            statusElement.className = 'badge bg-danger';
+          }
+        });
+      });
+
+  
+block content
+    .pc-container
+      .pc-content
+        // [ breadcrumb ] start
+        .page-header
+          .page-block
+            .row.align-items-center
+              .col-md-12
+                .page-header-title
+                  h2.mb-0 Lista de clientes
+        // [ breadcrumb ] end
+        // [ Main Content ] start
+        .row
+          // [ sample-page ] start
+          .col-sm-12
+            .card.table-card
+              .card-body
+                .text-end.p-4.pb-sm-2
+                  a.btn.btn-dark.d-inline-flex.align-items-center.gap-2(href='#', data-bs-toggle='modal', data-bs-target='#customer-edit_add-modal')
+                    i.ti.ti-plus.f-18
+                    |  Adicionar cliente
+                .table-responsive
+                  table#pc-dt-simple.table.table-hover
+                    thead
+                      tr
+                        th #
+                        th Nome do cliente
+                        th Contacto
+                        th Pedidos
+                        th Gasto
+                        th Status
+                        th.text-center A&ccedil;&otilde;es
+                    tbody
+                      each customer, index in customers
+                        tr
+                         td #{index + 1}
+                          td
+                            .row
+                              .col-auto
+                                img.wid-40.rounded-circle(src=`/img/users/${customer.photo}`, alt='user-image')
+                              .col
+                                h6.mb-0 #{customer.name}
+                                p.text-muted.f-12.mb-0
+                                  a.__cf_email__(href='/cdn-cgi/l/email-protection', data-cfemail='761b170413001736111b171f1a5815191b') #{customer.email}
+                          td #{customer.contact}
+                          td #{customer.ordersCount}
+                          td #{customer.totalSpent.toLocaleString()} MZN
+                          td
+                            span.badge.bg-light-success.rounded-pill.f-12 #{customer.status}
+                          td.text-center
+                            ul.list-inline.me-auto.mb-0
+                              li.list-inline-item.align-bottom(data-bs-toggle='tooltip', title='View')
+                                a.avtar.avtar-xs.btn-link-secondary.btn-pc-default(href='#', data-bs-toggle='modal', data-bs-target='#customer-modal' data-id=customer._id, data-image=`/img/users/${customer.photo}`, data-name=customer.name, data-birth=customer.birthDate, data-contact=customer.contact, data-address=customer.address, data-email=customer.email, data-status=customer.active ? 'Ativo' : 'Inativo' )
+                                  i.ti.ti-eye.f-18
+                              li.list-inline-item.align-bottom(data-bs-toggle='tooltip', title='Delete')
+                                a.avtar.avtar-xs.btn-link-danger.btn-pc-default.btn-delete-user(href='#' data-user-id=customer._id)
+                                  i.ti.ti-trash.f-18
+          // [ sample-page ] end
+        // [ Main Content ] end
+    #customer-modal.modal.fade(data-bs-keyboard='false', tabindex='-1', aria-hidden='true')
+      .modal-dialog.modal-lg.modal-dialog-centered.modal-dialog-scrollable
+        .modal-content
+          .modal-header.border-0.pb-0
+            h5.mb-0 Customer Details
+            a.avtar.avtar-s.btn-link-danger.btn-pc-default.ms-auto(href='#', data-bs-dismiss='modal')
+              i.ti.ti-x.f-20
+          .modal-body
+            .row
+              .col-lg-4
+                .card
+                  .card-body.position-relative
+                    .position-absolute.end-0.top-0.p-3
+                      span.badge.bg-light-success#modal-customer-status
+                    .text-center.mt-3
+                      .chat-avtar.d-inline-flex.mx-auto
+                        img.rounded-circle.img-fluid.wid-60#modal-customer-image(alt='User image')
+                      h5.mb-0#modal-customer-name
+                      p.text-muted.text-sm cliente
+                      hr.my-3.border.border-secondary-subtle
+                      .d-inline-flex.align-items-center.justify-content-between.w-100.mb-3
+                        i.ti.ti-mail   
+                           a#modal-customer-email.__cf_email__(href='/cdn-cgi/l/email-protection', data-cfemail='5c3e331c3b313d3530723f3331')
+                      .d-inline-flex.align-items-center.justify-content-between.w-100.mb-3
+                        i.ti.ti-phone   
+                           a#modal-customer-contact
+                      .d-inline-flex.align-items-center.justify-content-between.w-100.mb-3
+                        i.ti.ti-map-pin   
+                           a#modal-customer-address
+              .col-lg-8
+                .card
+                  .card-header
+                    h5 Personal Details
+                  .card-body
+                    ul.list-group.list-group-flush
+                      li.list-group-item.px-0.pt-0
+                        .row
+                          .col-md-6
+                            p.mb-1.text-muted Nome
+                            h6.mb-0#modal-customer-name-2
+                          .col-md-6
+                            p.mb-1.text-muted Email
+                            h6.mb-0#modal-customer-email-2
+                      li.list-group-item.px-0
+                        .row
+                          .col-md-6
+                            p.mb-1.text-muted Contacto
+                            h6.mb-0#modal-customer-contact-2
+                          .col-md-6
+                            p.mb-1.text-muted Data de nascimento
+                            h6.mb-0#modal-customer-birthDate
+                      li.list-group-item.px-0.pb-0
+                        p.mb-1.text-muted Endere&ccedil;o
+                        h6.mb-0#modal-customer-address-2
+
+    #customer-edit_add-modal.modal.fade(data-bs-keyboard='false', tabindex='-1', aria-hidden='true')
+      .modal-dialog.modal-lg.modal-dialog-centered.modal-dialog-scrollable
+        .modal-content
+          .modal-header
+            h5.mb-0 Adicionar cliente
+            a.avtar.avtar-s.btn-link-danger.btn-pc-default.ms-auto(href='#', data-bs-dismiss='modal')
+              i.ti.ti-x.f-20
+          .modal-body
+            .row
+              .col-sm-12
+                .mb-3
+                  label.form-label Nome
+                  input.form-control(type='text', placeholder='Informe o nome')
+                .mb-3
+                  label.form-label Email
+                  input.form-control(type='text', placeholder='Informe o email')
+                .mb-3
+                  label.form-label Contacto
+                  input.form-control(type='text', placeholder='Informe o contacto')
+                .mb-3
+                  label.form-label Endere&ccedil;o
+                  input.form-control(type='text', placeholder='Informe o endereço')
+                .mb-3
+                  label.form-label Data de nascimento
+                  input.form-control(type='text', placeholder='Informe a data de nascimento')
+          .modal-footer.justify-content-between
+            ul.list-inline.me-auto.mb-0
+              li.list-inline-item.align-bottom
+                a.avtar.avtar-s.btn-link-danger.btn-pc-default.w-sm-auto(href='#', data-bs-toggle='tooltip', title='Delete')
+                  i.ti.ti-trash.f-18
+            .flex-grow-1.text-end
+              button.btn.btn-link-danger.btn-pc-default(type='button', data-bs-dismiss='modal')
+                | Cancelar
+              button.btn.btn-dark(type='button', data-bs-dismiss='modal')
+                | Salvar   

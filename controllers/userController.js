@@ -63,7 +63,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   if (req.body.password || req.body.passwordConfirm) {
     return next(
       new AppError(
-        'Esta rota não é para atualizações de senha. Por favor use /updateMyPassword.',
+        'This route is not for password updates. Please use /updateMyPassword.',
         400
       )
     );
@@ -99,8 +99,14 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
 exports.createUser = (req, res) => {
   res.status(500).json({
     status: 'error',
-    message: 'Esta rota não está definida! Por favor, use /signup'
+    message: 'This route is not defined! Please use /signup instead'
   });
+};
+
+exports.setUserId = (req, res, next) => {
+  // Allow nested routes
+  if (!req.body.user) req.body.user = req.user.id;
+  next();
 };
 
 exports.getUser = factory.getOne(User);

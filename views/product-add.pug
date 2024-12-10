@@ -1,0 +1,262 @@
+extends base
+
+block append head
+   script(src='/js/plugins/pick-colors.js')
+   script(src='/js/plugins/wizard.min.js')
+
+   script(type='module').
+      // Function for displaying uploaded files
+      const onUploadSuccess = (elForUploadedFiles) => (file, response) => {
+      const url = response.uploadURL;
+      const fileName = file.name;
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = url;
+      a.target = "_blank";
+      a.appendChild(document.createTextNode(fileName));
+      li.appendChild(a);
+      document.querySelector(elForUploadedFiles).appendChild(li);
+      };
+      import {
+      Uppy,
+      Dashboard,
+      Webcam,
+      Tus,
+      DragDrop,
+      ProgressBar,
+      } from "https://releases.transloadit.com/uppy/v3.23.0/uppy.min.mjs";
+    
+      // for dashboard and upload files
+      const uppy1 = new Uppy({ debug: true, autoProceed: false })
+      .use(Dashboard, { target: "#pc-uppy-1", inline: true })
+      .use(Webcam, { target: Dashboard,  })
+      .use(Tus, { endpoint: "https://tusd.tusdemo.net/files/" });
+        window.uppy1 = uppy1;
+      uppy1.on("success", (fileCount) => {
+      console.log(`${fileCount} files uploaded`);
+      });
+      // for structure change upload files
+      const uppy2 = new Uppy({ debug: true, autoProceed: true })
+      .use(DragDrop, { target: "#files-drag-drop .for-DragDrop" })
+      .use(Tus, { endpoint: "https://tusd.tusdemo.net/files/" })
+      .use(ProgressBar, {
+      target: "#files-drag-drop .for-ProgressBar",
+      hideAfterFinish: false,
+      })
+      .on(
+      "upload-success",
+      onUploadSuccess("#files-drag-drop .uploaded-files ol")
+      );
+      window.uppy2 = uppy2; //
+      uppy2.on("success", (fileCount) => {
+      console.log(`${fileCount} files uploaded`);
+      });
+
+   script.
+        document.addEventListener("DOMContentLoaded", () => {
+            const selectElement = document.getElementById("statusDiscountSelect");
+
+            // Verifica se o elemento existe antes de continuar
+            if (selectElement) {
+            const collapseElement = document.querySelector("#multiCollapseExample1");
+            const collapseInstance = collapseElement 
+                ? new bootstrap.Collapse(collapseElement, { toggle: false }) 
+                : null;
+
+            selectElement.addEventListener("change", (event) => {
+                if (event.target.value === "sim" && collapseInstance) {
+                collapseInstance.show(); // Mostra o colapso
+                } else if (collapseInstance) {
+                collapseInstance.hide(); // Esconde o colapso
+                }
+            });
+            }
+        });
+   script.
+     document.addEventListener('DOMContentLoaded', () => {
+       new Wizard("#basicwizard", {
+           validate: true,
+           progress: true,
+       });
+     });
+  
+
+
+block content
+    .pc-container
+      .pc-content
+        // [ breadcrumb ] start
+        .page-header
+          .page-block
+        // [ breadcrumb ] end
+        // [ Main Content ] start
+        .row
+          // [ sample-page ] start
+          .col-sm-12
+            .card
+              .card-header
+                h5 Adicione o produto
+            #basicwizard.form-wizard.row.justify-content-center
+              .col-12
+                .card
+                  .card-body.p-3
+                    ul.nav.nav-pills.nav-justified
+                      li.nav-item(data-target-form='#contactDetailForm')
+                        a.nav-link.active(href='#contactDetail', data-bs-toggle='tab', data-toggle='tab')
+                          span.d-none.d-sm-inline Passo 1
+                      // end nav item
+                      li.nav-item(data-target-form='#jobDetailForm')
+                        a.nav-link.icon-btn(href='#jobDetail', data-bs-toggle='tab', data-toggle='tab')
+                          span.d-none.d-sm-inline Passo 2
+                      // end nav item
+                      li.nav-item(data-target-form='#educationDetailForm')
+                        a.nav-link.icon-btn(href='#educationDetail', data-bs-toggle='tab', data-toggle='tab')
+                          span.d-none.d-sm-inline Passo 3
+                      // end nav item
+                      li.nav-item
+                        a.nav-link.icon-btn(href='#finish', data-bs-toggle='tab', data-toggle='tab')
+                          i.ph-duotone.ph-check-circle
+                          span.d-none.d-sm-inline Fim
+                      // end nav item
+                .card
+                  .card-body
+                    .tab-content
+                      // START: Define your progress bar here
+                      #bar.progress.mb-3(style='height: 7px')
+                        .bar.progress-bar.progress-bar-striped.progress-bar-animated.bg-success
+                      // END: Define your progress bar here
+                      // START: Define your tab pans here
+                      #contactDetail.tab-pane.show.active.form-section
+                        form#form1.form-product-data-part-I
+                          .text-center
+                            small.text-muted Vamos come&ccedil;ar com as informa&ccedil;&otilde;es b&aacute;sicas
+                          .row.mt-4
+                            .col-sm-auto.text-center
+                              .position-relative.me-3.d-inline-flex
+                                label.photo_submit.js-photo_submit4
+                                  input.photo_submit-input.js-photo_submit-input(type='file', id='imageCover' name='imageCover' accept='image/*' required)
+                                  span.photo_submit-plus
+                                  span.photo_submit-uploadLabel capa da imagem
+                                  span.photo_submit-delete.js-photo_delete-btn
+                            .col
+                              .row
+                                .col-sm-6
+                                  .mb-3
+                                    label.form-label Nome do produto
+                                    input.form-control#name(type='text', placeholder='Informe o nome do Produto' name='name')
+                                .col-sm-6
+                                  .mb-3
+                                    label.form-label Descri&ccedil;&atilde;o do produto
+                                    input.form-control#description(type='text', placeholder='Informe a descrição do produto' name='description')
+                                .col-sm-6
+                                  .mb-3
+                                    label.form-label Qty
+                                    input.form-control#stockQuantity(type='number', placeholder='Informe a quantidade do produto' name='stockQuantity')
+                                .col-sm-6
+                                  .mb-3
+                                    label.form-label Pre&ccedil;o
+                                    input.form-control#price(type='number', placeholder='Informe o preço do produto' name='price')
+                      // end contact detail tab pane
+                      #jobDetail.tab-pane.form-section
+                        form#form2
+                          .text-center
+                            small.text-muted Forne&ccedil;a mais informa&ccedil;&otilde;es sobre o produto
+                          .row.mt-4
+                            .col-sm-6
+                              .mb-3
+                                label.form-label Categoria
+                                select.form-select#category(name='category')
+                                  option(value='', disabled='', selected='')
+                                    | Selecione a categoria
+                                  option(value='eletrônicos') eletrônicos 
+                                  option(value='vestuário') vestuário
+                                  option(value='alimentos') alimentos 
+                                  option(value='Brinquedos') Brinquedos
+                                  option(value='livros') livros
+                                  option(value='outros') outros
+                            .col-sm-6
+                              .mb-3
+                                label.form-label G&ecirc;nero
+                                select.form-select#gender(name='gender')
+                                  option(value='', disabled='', selected='')
+                                    | Selecione o g&ecirc;nero
+                                  option(value='masculino') masculino
+                                  option(value='feminino') feminino
+                                  option(value='crianças') crianças
+                                  option(value='unissex') unissex
+                            .col-sm-6
+                              .mb-3
+                                label.form-label Tamanho
+                                select.form-select#sizes(name='sizes')
+                                  option(value='', disabled='', selected='')
+                                    | Selecione o tamanho
+                                  option(value='PP') PP
+                                  option(value='P') P
+                                  option(value='M') M
+                                  option(value='G') G
+                                  option(value='GG') GG
+                                  option(value='XG') XG
+                                  option(value='XS') XS
+                                  option(value='S') S
+                                  option(value='L') L
+                                  option(value='XL') XL
+                                  option(value='XXL') XXL
+                                  option(value='XXXL') XXXL
+                            .col-sm-6
+                              .mb-3
+                                label.form-label Desconto
+                                select#statusDiscountSelect.form-select(name='statusDiscount')
+                                  option(value='', disabled='', selected='')
+                                    | O Produto possui desconto?
+                                  option(value='não') N&atilde;o
+                                  option(value='sim') Sim
+                            #multiCollapseExample1.col-sm-12.multi-collapse.collapse
+                              .mb-3
+                                label.form-label Desconto
+                                input.form-control#priceDiscount(type='number', placeholder='Informe o disconto' name='priceDiscount')
+                            .col-sm-6
+                              label.form-label Selecione as cores disponiveis
+                              .input-group.mb-3
+                                button#addColor.btn.btn-outline-secondary(type='button')
+                                  | Adicionar
+                                input#colorPicker.form-control.form-control-color-picker(type='color')
+                              input#selectedColorsInput(type='hidden', name='selectedColors')
+                            .col-sm-6
+                              #selectedColors
+                                small.text-muted Cores Selecionadas:
+                      // end job detail tab pane
+                      #educationDetail.tab-pane
+                        #educationForm
+                          .text-center
+                            small.text-muted Forne&ccedil;a imagens do produto
+                          .row.mt-4
+                            .col-md-12
+                              .mb-3.form-section  
+                                  form.pc-uppy#pc-uppy-1
+                      #finish.tab-pane
+                        .row.d-flex.justify-content-center
+                          .col-lg-6
+                            .text-center
+                              .i-block.f-50.text-warning(data-clipboard-text='fas fa-box-open', data-bs-toggle='tooltip', data-filter='fa-box-open', aria-label='fas fa-box-open', data-bs-original-title='fas fa-box-open', style='display: inline-flex;')
+                                i.fas.fa-hourglass-end  
+                              h3.mt-4.mb-3 FIM!
+                              .mb-3
+                                .text-center
+                                  small.text-muted Este é o fim do formulario para todas informações necessarias para o cadastro de um acessório
+                      .d-flex.wizard.justify-content-between.flex-wrap.gap-2.mt-3
+                        .first
+                          a.btn.btn-secondary(href='javascript:void(0);') Primeiro
+                        .d-flex
+                          .previous.me-2
+                            a.btn.btn-secondary(href='javascript:void(0);') Voltar ao anterior
+                          .next
+                            a.btn.btn-secondary(href='javascript:void(0);') Pr&oacute;xima etapa
+                        .last
+                          a.btn.btn-secondary#submitAll(href='javascript:void(0);') Terminar
+                      // END: Define your controller buttons here
+                // end tab content
+          // [ sample-page ] end
+        // [ Main Content ] end    
+   
+   
+

@@ -1,0 +1,147 @@
+extends base
+
+block content
+    .pc-container
+      .pc-content
+        .page-header
+        .row
+          .col-sm-12
+            .card
+              .card-body.py-0
+                ul#myTab.nav.nav-tabs.profile-tabs(role='tablist')
+                  li.nav-item
+                    a#profile-tab-1.nav-link.active(data-bs-toggle='tab', href='#profile-1', role='tab', aria-selected='true')
+                      i.ti.ti-user.me-2
+                      | Perfil
+                  li.nav-item
+                    a#profile-tab-2.nav-link(data-bs-toggle='tab', href='#profile-2', role='tab', aria-selected='true')
+                      i.ti.ti-file-text.me-2
+                      | Detalhes pessoais
+                  li.nav-item
+                    a#profile-tab-4.nav-link(data-bs-toggle='tab', href='#profile-4', role='tab', aria-selected='true')
+                      i.ti.ti-lock.me-2
+                      | Alterar a senha
+            .tab-content
+              #profile-1.tab-pane.show.active(role='tabpanel', aria-labelledby='profile-tab-1')
+                .row
+                  .col-lg-4.col-xxl-3
+                    .card
+                      .card-body.position-relative
+                        .text-center.mt-3
+                          .chat-avtar.d-inline-flex.mx-auto
+                            img.rounded-circle.img-fluid.wid-70(src=`/img/users/${user.photo}`, alt='User image')
+                          h5.mb-0=user.name
+                          p.text-muted.text-sm=user.role
+                          hr.my-3.border.border-secondary-subtle
+                          .d-inline-flex.align-items-center.justify-content-start.w-100.mb-3
+                            i.ti.ti-mail.me-2
+                            p.mb-0
+                              a.__cf_email__(href='/cdn-cgi/l/email-protection', data-cfemail='52333c213a333c12353f333b3e7c313d3f')= user.email
+                          .d-inline-flex.align-items-center.justify-content-start.w-100.mb-3
+                            i.ti.ti-phone.me-2
+                            p.mb-0=user.contact
+                          .d-inline-flex.align-items-center.justify-content-start.w-100.mb-3
+                            i.ti.ti-map-pin.me-2
+                            p.mb-0=user.address
+                  .col-lg-8.col-xxl-9
+                    .card
+                      .card-header
+                        h5 Detalhes pessoais
+                      .card-body
+                        ul.list-group.list-group-flush
+                          li.list-group-item.px-0.pt-0
+                            .row
+                              .col-md-6
+                                p.mb-1.text-muted Nome
+                                p.mb-0=user.name
+                              .col-md-6
+                                p.mb-1.text-muted Email
+                                p.mb-0
+                                  a.__cf_email__(href='/cdn-cgi/l/email-protection', data-cfemail='e1808f9289808fcf8589d9d0a1868c80888dcf828e8c')=user.email
+                          li.list-group-item.px-0
+                            .row
+                              .col-md-6
+                                p.mb-1.text-muted Contacto
+                                p.mb-0=user.contact
+                              .col-md-6
+                                p.mb-1.text-muted Endere&ccedil;o
+                                p.mb-0=user.address
+                          li.list-group-item.px-0.pb-0
+                            p.mb-1.text-muted Data de nascimento
+                            p.mb-0=`${user.birthDate.getFullYear()}-${(user.birthDate.getMonth() + 1).toString().padStart(2, '0')}-${user.birthDate.getDate().toString().padStart(2, '0')}`
+              #profile-2.tab-pane(role='tabpanel', aria-labelledby='profile-tab-2')
+                .row
+                  .col-lg-12
+                    .card
+                      .card-header
+                        h5 Informa&ccedil;&otilde;es pessoais
+                      .card-body
+                        .row
+                          form.form-user-data
+                            .col-sm-12.text-center.mb-3
+                              .user-upload.wid-75
+                                img.img-fluid.form__user-photo(src=`/img/users/${user.photo}`, alt='img')
+                                label.img-avtar-upload(for='uplfile')
+                                  i.ti.ti-camera.f-24.mb-1
+                                  span Carregar
+                                input.d-none.form__upload(type='file' id='uplfile', name='photo')
+                            .row
+                              .col-md-6
+                                .mb-3
+                                  label.form-label Nome
+                                  input#name.form-control(type='text', placeholder='Digite o nome' value=`${user.name}`, required, name='name')
+                              .col-md-6
+                                .mb-3
+                                  label.form-label Email
+                                  input#email.form-control(type='email', placeholder='Digite o email' value=`${user.email}`, required, name='email')
+                              .col-md-6
+                                .mb-3
+                                  label.form-label Contacto
+                                  input#contact.form-control(type='text', placeholder='Digite o numero de telefone' value=`${user.contact}`, required, name='contact')
+                              .col-md-6
+                                .mb-3
+                                  label.form-label Endere&ccedil;o
+                                  input#address.form-control(type='text', placeholder='Digite o encountered' value=`${user.address}`, required, name='address')
+                              .col-md-6
+                                .mb-3
+                                  label.form-label Data de nascimento
+                                  input#birthDate.form-control(type='date',   value=`${user.birthDate.getFullYear()}-${(user.birthDate.getMonth() + 1).toString().padStart(2, '0')}-${user.birthDate.getDate().toString().padStart(2, '0')}`, required, name='birthDate')
+                              .col-12.text-end.btn-page
+                                  button.btn.btn-dark(type='submit') Atualizar perfil
+              #profile-4.tab-pane(role='tabpanel', aria-labelledby='profile-tab-4')
+                form.card.form-user-password
+                  .card-header
+                    h5 Alterar Senha
+                  .card-body
+                    .row
+                      .col-sm-6
+                        .mb-3
+                          label.form-label Senha Antiga
+                          input.form-control#password-current(type='password', placeholder='••••••••', required, minlength='8')
+                        .mb-3
+                          label.form-label Nova Senha
+                          input.form-control#password(type='password', placeholder='••••••••', required, minlength='8')
+                        .mb-3
+                          label.form-label Confirme sua senha
+                          input.form-control#password-confirm(type='password', placeholder='••••••••', required, minlength='8')
+                      .col-sm-6
+                        h5 A nova senha deve conter:
+                        ul.list-group.list-group-flush
+                          li.list-group-item
+                            i.ti.ti-circle-check.text-success.f-16.me-2
+                                                      Pelo menos 8 caracteres
+                          li.list-group-item
+                            i.ti.ti-circle-check.text-success.f-16.me-2
+                                                      Pelo menos 1 letra min&uacute;scula (a-z)
+                          li.list-group-item
+                            i.ti.ti-circle-check.text-success.f-16.me-2
+                                                      Pelo menos 1 letra mai&uacute;scula (A-Z)
+                          li.list-group-item
+                            i.ti.ti-circle-check.text-success.f-16.me-2
+                                                      Pelo menos 1 n&uacute;mero (0-9)
+                          li.list-group-item
+                            i.ti.ti-circle-check.text-success.f-16.me-2
+                                                      Pelo menos 1 caractere especial
+                  .card-footer.text-end.btn-page
+                    .btn.btn-outline-secondary Cancelar
+                    button.btn.btn-dark.btn--save-password(type='submit') Atualizar Senha

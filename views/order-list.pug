@@ -1,0 +1,52 @@
+extends base
+
+block content
+    .pc-container
+      .pc-content
+        .page-header
+          .page-block
+            .row.align-items-center
+        .row
+          .col-12
+            .card.table-card
+              .card-header
+                .d-sm-flex.align-items-center.justify-content-between
+                  h5.mb-3.mb-sm-0 Lista de Encomendas
+              .card-body.pt-3
+                .table-responsive
+                  table#pc-dt-simple.table.table-hover
+                    thead
+                      tr
+                        th Nome
+                        th Contacto
+                        th QTY
+                        th Email
+                        th Data de Submiss&atilde;o
+                        th A&ccedil;&atilde;o
+                    tbody
+                      if orders.length === 0
+                        tr
+                          td(colspan="6", class="text-start")
+                            p.text-muted Não há encomendas pendentes no momento.
+                      else    
+                        each order in orders
+                          tr
+                            td
+                              .d-flex.align-items-center
+                                .flex-shrink-0
+                                  img.img-radius.wid-40(src=`/img/users/${order.user.photo}`, alt='user image')
+                                .flex-grow-1.ms-3
+                                  h6.mb-0 #{order.user.name}
+                            td  #{order.user.contact}
+                            td #{order.totalProducts}
+                            td
+                              a.__cf_email__(href='/cdn-cgi/l/email-protection', data-cfemail='3970575f5679080b0a175a5654') #{order.user.email}
+                            td #{order.createdAt}
+                            td
+                              a.avtar.avtar-xs.btn-link-secondary(href=`/order/${order._id}`)
+                                i.ti.ti-eye.f-20
+                              a.avtar.avtar-xs.btn-link-secondary.btn-confirm-order(href='#' data-order-id=order._id)
+                                i.fas.fa-check-circle.f-20
+                              a.avtar.avtar-xs.btn-link-secondary.btn-order-list(href='#' data-orderlist-id=order._id)
+                                i.ti.ti-trash.f-20
+                        

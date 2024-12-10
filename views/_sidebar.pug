@@ -1,0 +1,131 @@
+nav.pc-sidebar
+      .navbar-wrapper
+        .m-header
+          a.b-brand.text-primary(href='../dashboard/index.html')
+            // ========   Change your logo from here   ============
+            img.img-fluid(src='/images/logo-1-removebg-preview.png', width='70px', alt='logo')
+            |  
+            span.badge.bg-light-success.rounded-pill.ms-2.theme-version v9.4.1
+        if user   
+          .navbar-content
+            .card.pc-user-card
+              .card-body
+                .d-flex.align-items-center
+                  .flex-shrink-0
+                    img.user-avtar.wid-45.rounded-circle(src=`/img/users/${user.photo}` alt='user-image')
+                  .flex-grow-1.ms-3.me-2
+                    h6.mb-0=user.name.split(' ')[0]
+                    small=user.role
+                  a.btn.btn-icon.btn-link-secondary.avtar(data-bs-toggle='collapse', href='#pc_sidebar_userlink')
+                    svg.pc-icon
+                      use(xlink:href='#custom-sort-outline')
+                #pc_sidebar_userlink.collapse.pc-user-links
+                  .pt-3
+                    a(href='/me')
+                      i.ti.ti-user
+                      |  
+                      span Minha conta
+                    a(href='/me')
+                      i.ti.ti-settings
+                      |  
+                      span Configura&ccedil;&otilde;es
+                    a.nav__el--logout(href='/logout')
+                      i.ti.ti-power
+                      |  
+                      span Sair
+            ul.pc-navbar
+              li.pc-item.pc-caption
+                label Navega&ccedil;&atilde;o
+              li.pc-item.pc-hasmenu
+                a.pc-link(href='/')
+                  span.pc-micon
+                    svg.feather.feather-layers.pc-icon(xmlns='http://www.w3.org/2000/svg', width='24', height='24', viewBox='0 0 24 24', fill='none', stroke='currentColor', stroke-width='2', stroke-linecap='round', stroke-linejoin='round')
+                      polygon(points='12 2 2 7 12 12 22 7 12 2')
+                      polyline(points='2 17 12 22 22 17')
+                      polyline(points='2 12 12 17 22 12')
+                  span.pc-mtext Acess&oacute;rios
+            ul.pc-navbar
+              li.pc-item.pc-hasmenu
+                a.pc-link(href='/checkout')
+                  span.pc-micon
+                    svg.feather.feather-shopping-cart(xmlns='http://www.w3.org/2000/svg', width='24', height='24', viewBox='0 0 24 24', fill='none', stroke='currentColor', stroke-width='2', stroke-linecap='round', stroke-linejoin='round')
+                      circle(cx='9', cy='21', r='1')
+                      circle(cx='20', cy='21', r='1')
+                      path(d='M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6')
+                  span.pc-mtext Meu Carinho
+            - if (user.role === 'admin')        
+                ul.pc-navbar      
+                  li.pc-item.pc-caption
+                    label Admin Panel
+                    |  
+                    svg.pc-icon
+                      use(xlink:href='#custom-layer')
+                ul.pc-navbar
+                  li.pc-item.pc-hasmenu
+                    a.pc-link(href='/order-list')
+                      span.pc-micon
+                        svg.feather.feather-package.pc-icon(xmlns='http://www.w3.org/2000/svg', width='24', height='24', viewBox='0 0 24 24', fill='none', stroke='currentColor', stroke-width='2', stroke-linecap='round', stroke-linejoin='round')
+                          line(x1='16.5', y1='9.4', x2='7.5', y2='4.21')
+                          path(d='M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z')
+                          polyline(points='3.27 6.96 12 12.01 20.73 6.96')
+                          line(x1='12', y1='22.08', x2='12', y2='12')
+                      span.pc-mtext Encomendas
+                ul.pc-navbar
+                  li.pc-item.pc-hasmenu
+                    a.pc-link(href='/product-add')
+                      span.pc-micon
+                        svg.feather.feather-clipboard.pc-icon(xmlns='http://www.w3.org/2000/svg', width='24', height='24', viewBox='0 0 24 24', fill='none', stroke='currentColor', stroke-width='2', stroke-linecap='round', stroke-linejoin='round')
+                          path(d='M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2')
+                          rect(x='8', y='2', width='8', height='4', rx='1', ry='1')
+                      span.pc-mtext Adicionar Acess&oacute;rio
+                ul.pc-navbar
+                  li.pc-item.pc-hasmenu
+                    a.pc-link(href='/customer-list')
+                      span.pc-micon
+                        svg.feather.feather-users.pc-icon(xmlns='http://www.w3.org/2000/svg', width='24', height='24', viewBox='0 0 24 24', fill='none', stroke='currentColor', stroke-width='2', stroke-linecap='round', stroke-linejoin='round')
+                          path(d='M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2')
+                          circle(cx='9', cy='7', r='4')
+                          path(d='M23 21v-2a4 4 0 0 0-3-3.87')
+                          path(d='M16 3.13a4 4 0 0 1 0 7.75')
+                      span.pc-mtext Lista de clientes
+                ul.pc-navbar
+                  li.pc-item.pc-hasmenu
+                    a.pc-link(href='/product-list')
+                      span.pc-micon
+                        svg.feather.feather-inbox.pc-icon(xmlns='http://www.w3.org/2000/svg', width='24', height='24', viewBox='0 0 24 24', fill='none', stroke='currentColor', stroke-width='2', stroke-linecap='round', stroke-linejoin='round')
+                          polyline(points='22 12 16 12 14 15 10 15 8 12 2 12')
+                          path(d='M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z')
+                      span.pc-mtext Lista de produtos
+        else 
+          .navbar-content
+            ul.pc-navbar
+              li.pc-item.pc-caption
+                label Navega&ccedil;&atilde;o
+              li.pc-item.pc-hasmenu
+                a.pc-link(href='/')
+                  span.pc-micon
+                    svg.feather.feather-layers.pc-icon(xmlns='http://www.w3.org/2000/svg', width='24', height='24', viewBox='0 0 24 24', fill='none', stroke='currentColor', stroke-width='2', stroke-linecap='round', stroke-linejoin='round')
+                      polygon(points='12 2 2 7 12 12 22 7 12 2')
+                      polyline(points='2 17 12 22 22 17')
+                      polyline(points='2 12 12 17 22 12')
+                  span.pc-mtext Acess&oacute;rios
+            ul.pc-navbar
+              li.pc-item.pc-hasmenu
+                a.pc-link(href='/login')
+                  span.pc-micon
+                    svg.feather.feather-log-in(xmlns='http://www.w3.org/2000/svg', width='24', height='24', viewBox='0 0 24 24', fill='none', stroke='currentColor', stroke-width='2', stroke-linecap='round', stroke-linejoin='round')
+                      path(d='M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4')
+                      polyline(points='10 17 15 12 10 7')
+                      line(x1='15', y1='12', x2='3', y2='12')
+                  span.pc-mtext login
+            ul.pc-navbar
+              li.pc-item.pc-hasmenu
+                a.pc-link(href='/signup')
+                  span.pc-micon
+                    svg.feather.feather-user-plus(xmlns='http://www.w3.org/2000/svg', width='24', height='24', viewBox='0 0 24 24', fill='none', stroke='currentColor', stroke-width='2', stroke-linecap='round', stroke-linejoin='round')
+                      path(d='M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2')
+                      circle(cx='8.5', cy='7', r='4')
+                      line(x1='20', y1='8', x2='20', y2='14')
+                      line(x1='23', y1='11', x2='17', y2='11')
+                  span.pc-mtext Sign up
+                        

@@ -1,15 +1,52 @@
-extends base
+doctype html
+html(lang='en')
+  // [Head] start
+  head
+    meta(charset='utf-8')
+    meta(name='viewport' content='width=device-width,initial-scale=1,user-scalable=0,minimal-ui')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    link(rel='icon' href='./images/logo-1 (1).ico' type='image/x-icon')
+    link(rel='stylesheet' href='./fonts/phosphor/duotone/style.css')
+    link(rel='stylesheet' href='./fonts/tabler-icons.min.css')
+    link(rel='stylesheet' href='./fonts/feather.css')
+    link(rel='stylesheet' href='./fonts/fontawesome.css')
+    link(rel='stylesheet' href='./fonts/material.css')
+    link#main-style-link(rel='stylesheet' href='./css/style.css')
+    link(rel='stylesheet' href='./css/style-preset.css')
 
-block content
-  main.main
-    .login-form
-      h2.heading-secondary.ma-bt-lg Faça login em sua conta
-      form.form.form--login
-        .form__group
-          label.form__label(for='email') Email address
-          input#email.form__input(type='email', placeholder='you@example.com', required)
-        .form__group.ma-bt-md
-          label.form__label(for='password') Senha
-          input#password.form__input(type='password', placeholder='••••••••', required, minlength='8')
-        .form__group
-          button.btn.btn--green Login
+    title Wenner | #{title}
+
+  body(data-pc-preset='preset-1' data-pc-sidebar-caption='true' data-pc-layout='vertical' data-pc-direction='ltr' data-pc-theme_contrast='' data-pc-theme='light')
+
+    .auth-main
+      .auth-wrapper.v1
+        .auth-form
+          .card.my-5
+            .card-body
+              .text-center.my-4.mb-4
+                a(href='#')
+                  img(src='./images/logo-1.jpg' width='140px' alt='img')
+              form.form--login   
+                .mb-3
+                  input#email.form-control(type='email' placeholder='Informe o seu endereço de email' required)
+                .mb-3
+                  input#password.form-control(type='password', placeholder='••••••••••••••••••' required minlength='8')
+                .d-flex.mt-1.justify-content-between.align-items-center
+                  .form-check
+                    input#customCheckc1.form-check-input.input-dark(type='checkbox' checked='')
+                    label.form-check-label.text-muted(for='customCheckc1') recorde me?
+                  h6.text-dark.f-w-400.mb-0
+                    a.text-dark(href='/forgot') Esqueceu sua senha?
+                .d-grid.mt-4
+                  button.btn.btn-dark(type="submit") Login
+                .d-flex.justify-content-between.align-items-end.mt-4
+                  h6.f-w-500.mb-0 N&atilde;o tem uma conta?
+                  a.link-dark(href='/signup') Criar uma conta
+    
+    //- script(src='https://js.stripe.com/v3/')
+    script(src='/js/bundle.js')
+    .pct-c-btn
+      a(href='#' data-bs-toggle='offcanvas' data-bs-target='#offcanvas_pc_layout')
+        i.ph-duotone.ph-gear-six
+    #offcanvas_pc_layout.offcanvas.border-0.pct-offcanvas.offcanvas-end(tabindex='-1')
+      

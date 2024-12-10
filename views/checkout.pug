@@ -1,0 +1,453 @@
+extends base
+
+block append head
+    script.
+      // scroll-block
+      var tc = document.querySelectorAll(".scroll-block");
+      for (var t = 0; t < tc.length; t++) {
+        new SimpleBar(tc[t]);
+      }
+      // quantity start
+      function increaseValue(productId) {
+        var inputElement = document.querySelector(`input[data-product-id="${productId}"]`);
+        var value = parseInt(inputElement.value, 10);
+        value = isNaN(value) ? 0 : value;
+        value++;
+        inputElement.value = value;
+      }
+
+      function decreaseValue(productId) {
+        var inputElement = document.querySelector(`input[data-product-id="${productId}"]`);
+        var value = parseInt(inputElement.value, 10);
+        value = isNaN(value) ? 0 : value;
+        value < 1 ? value = 1 : value--;
+        inputElement.value = value;
+      }
+
+
+
+block content
+    .pc-container
+      .pc-content
+        // [ breadcrumb ] start
+        .page-header
+          .page-block
+            .row.align-items-center
+              .col-md-12
+                .page-header-title
+                  h2.mb-0 Checkout
+        .row
+          // [ sample-page ] start
+          .col-sm-12
+            .card
+              .card-body.p-0
+                ul#myTab.nav.nav-tabs.checkout-tabs.mb-0(role='tablist')
+                  li.nav-item
+                    a#ecomtab-tab-1.nav-link.active(data-bs-toggle='tab', href='#ecomtab-1', role='tab', aria-controls='ecomtab-1', aria-selected='true')
+                      .d-flex.align-items-center
+                        .avtar.avtar-s
+                          i.ti.ti-shopping-cart
+                        .flex-grow-1.ms-2
+                          h5.mb-0 Detalhes do Carinho
+                  li.nav-item
+                    a#ecomtab-tab-2.nav-link(data-bs-toggle='tab', href='#ecomtab-2', role='tab', aria-controls='ecomtab-2', aria-selected='true')
+                      .d-flex.align-items-center
+                        .avtar.avtar-s
+                          i.ti.ti-building-skyscraper
+                        .flex-grow-1.ms-2
+                          h5.mb-0 Informa&ccedil;&otilde;es de envio
+                  li.nav-item
+                    a#ecomtab-tab-3.nav-link(data-bs-toggle='tab', href='#ecomtab-3', role='tab', aria-controls='ecomtab-3', aria-selected='true')
+                      .d-flex.align-items-center
+                        .avtar.avtar-s
+                          i.ti.ti-credit-card
+                        .flex-grow-1.ms-2
+                          h5.mb-0 Encomendar
+            .tab-content
+              #ecomtab-1.tab-pane.show.active(role='tabpanel', aria-labelledby='ecomtab-tab-1')
+                .row
+                  .col-xl-8
+                    .card
+                      .card-header
+                        .row.align-items-center.my-2
+                          .col
+                            .progress(style='height: 6px')
+                              .progress-bar.bg-primary(style='width: 33%')
+                          .col-auto
+                            p.mb-0.h6 Passo 1
+                      .card-body.border-bottom
+                        h5
+                          | Item do carrinho
+                          span.ms-2.f-14.px-2.badge.bg-light-secondary.rounded-pill #{userCart && userCart.products ? userCart.products.length : 0}
+                      .card-body.p-0.table-body
+                        .table-responsive
+                          table#pc-dt-simple.table.mb-0
+                            thead
+                              tr
+                                th Produto
+                                th.text-end Preço
+                                th.text-center Quantidade
+                                th.text-end Total
+                                th.text-end
+                            tbody
+                              if userCart && userCart.products && userCart.products.length > 0
+                                each item in userCart.products
+                                  tr
+                                    td
+                                      .d-flex.align-items-center
+                                        img.bg-light.wid-50.rounded(src=`/img/products/${item.product.imageCover}`, alt='image')
+                                        .flex-grow-1.ms-3
+                                          h5.mb-1 #{item.product.name}
+                                    td.text-end
+                                      p.text-sm.text-muted.mb-0
+                                        h5.mb-0 #{item.product.priceDiscount || item.product.price} MZN
+                                        if item.product.priceDiscount
+                                          span.text-sm.text-muted.text-decoration-line-through #{item.product.price} MZN
+                                    td.text-center
+                                      .btn-group.btn-group-sm.mb-2.border(role='group')
+                                        button.decrease.btn.btn-link-secondary(type='button',onclick=`decreaseValue('${item.product._id}')` data-product-id=item.product._id)
+                                          i.ti.ti-minus
+                                        input.quantity.wid-35.text-center.border-0.m-0.form-control.rounded-0.shadow-none(type='text', name='quantity' value=item.quantity,  data-product-id=`${item.product._id}`)
+                                        button.increase.btn.btn-link-secondary(type='button',  onclick=`increaseValue('${item.product._id}')` data-product-id=item.product._id)
+                                          i.ti.ti-plus
+                                    td.text-end
+                                      h5.mb-0 #{item.quantity * (item.product.priceDiscount || item.product.price)}
+                                    td.text-end
+                                      a.avtar.avtar-s.btn-link-danger.btn-pc-default.delete-from-cart(data-cart-id=userCart._id data-product-id=item.product._id)
+                                        i.ti.ti-trash.f-18
+                              else
+                                tr
+                                  td.colspan-5.text-start.text-muted Carrinho vazio.           
+                    .text-end
+                      a.btn.btn-link-secondary.d-inline-flex.align-items-center(href='/')
+                        i.ti.ti-chevron-left.me-2
+                        |  Voltar para Compras
+                  .col-xl-4
+                    .card
+                      .card-body
+                        button.btn.btn-sm.btn-link-secondary(type='button', data-bs-toggle='modal', data-bs-target='#couponModal')
+                          | Tem um c&oacute;digo de cupom?
+                        .input-group.my-2
+                          input.form-control(type='text', placeholder='Cupom de desconto')
+                          button.btn.btn-outline-secondary(type='button')
+                            | Aplicar
+                    .card
+                      .card-body.py-2
+                        ul.list-group.list-group-flush
+                          li.list-group-item.px-0
+                            h5.mb-0 Resumo do pedido
+                          li.list-group-item.px-0
+                            .float-end
+                              h5.mb-0 -
+                            span.text-muted Sub Total
+                          li.list-group-item.px-0
+                            .float-end
+                              h5.mb-0 -
+                            span.text-muted Entrega estimada
+                          li.list-group-item.px-0
+                            .float-end
+                              h5.mb-0 -
+                            span.text-muted Cr&eacute;dito
+                    .card
+                      .card-body.py-2
+                        ul.list-group.list-group-flush
+                          li.list-group-item.px-0
+                            .float-end
+                              h5.mb-0 #{userCart && userCart.totalPrice ? userCart.totalPrice : 0} MZN
+                            h5.mb-0.d-inline-block Total
+                    .d-flex.align-items-center.text-muted.my-4
+                      span.text-muted.text-sm.w-100
+                        | Encomendas seguras. Retornos f&aacute;ceis. 100% Atentico
+                        | produtos.
+              #ecomtab-2.tab-pane(role='tabpanel', aria-labelledby='ecomtab-tab-2')
+                .row
+                  .col-xl-8
+                    .card
+                      .card-header
+                        .row.align-items-center.mb-3
+                          .col
+                            .progress(style='height: 6px')
+                              .progress-bar.bg-primary(style='width: 66%')
+                          .col-auto
+                            p.mb-0.h6 Passo 2
+                      #multiCollapseExample1.collapse.multi-collapse.show
+                        .card-body.border-bottom
+                          .row.align-items-center
+                            .col
+                              h5.mb-0 Informa&ccedil;&otilde;es de envio
+                            .col-auto
+                              button.btn.btn-primary(type='button', data-bs-toggle='collapse', data-bs-target='.multi-collapse', aria-expanded='false', aria-controls='multiCollapseExample1 multiCollapseExample2')
+                                | Adicionar novo endere&ccedil;o
+                        .card-body
+                          .address-check-block
+                            .address-check.border.rounded.p-3
+                              .form-check
+                                input#address-check-1.form-check-input.input-primary(type='radio', name='radio1', checked='')
+                                label.form-check-label.d-block(for='address-check-1')
+                                  span.h6.mb-0.d-block #{user.name} 
+                                    small.text-muted (Home)
+                                  span.text-muted.address-details #{user.address} 
+                                  span.row.align-items-center.justify-content-between
+                                    span.col-sm-6
+                                      span.text-muted.mb-0 #{user.contact} 
+                                    span.col-sm-6.text-sm-end
+                                      span.address-btns.d-flex.align-items-center.justify-content-end
+                                        a.avtar.avtar-s.btn-link-danger.btn-pc-default.me-1(href='#')
+                                          i.ti.ti-trash.f-20
+                                        button.btn.btn-sm.btn-outline-primary
+                                          | Entregue neste endere&ccedil;o
+                      #multiCollapseExample2.collapse.multi-collapse
+                        .card-body.border-bottom
+                          .row.align-items-center
+                            .col
+                              h5.mb-0 Adicionar novo endere&ccedil;o
+                            .col-auto
+                        .card-body
+                          .row
+                            .col-12
+                              .mb-3.row
+                                label.col-lg-4.col-form-label
+                                  | Tipo de endere&ccedil;o:
+                                  small.text-muted.d-block Insira o tipo de endere&ccedil;o:
+                                .col-lg-8
+                                  .form-check.form-check-inline
+                                    input#addtypecheck1.form-check-input(type='radio', name='flexRadioDefault', checked='checked')
+                                    label.form-check-label(for='addtypecheck1') Casa (entrega o dia todo)
+                                  .form-check.form-check-inline
+                                    input#addtypecheck2.form-check-input(type='radio', name='flexRadioDefault')
+                                    label.form-check-label(for='addtypecheck2') Trabalho (das 10h &agrave;s 17h)
+                              .mb-3.row
+                                label.col-lg-4.col-form-label
+                                  | Nome
+                                  small.text-muted.d-block Informe o seu nome
+                                .col-lg-8
+                                  input.form-control(type='text')
+                              .mb-3.row
+                                label.col-lg-4.col-form-label
+                                  | Email 
+                                  small.text-muted.d-block Informe o email
+                                .col-lg-8
+                                  input.form-control(type='email')
+                              .mb-3.row
+                                label.col-lg-4.col-form-label
+                                  | Data de Nascimento:
+                                  small.text-muted.d-block Informe a data de Nascimento
+                                .col-lg-8
+                                  input.form-control(type='date')
+                              .mb-3.row
+                                label.col-lg-4.col-form-label
+                                  | Contacto
+                                  small.text-muted.d-block Informe o cantacto
+                                .col-lg-8
+                                  input.form-control(type='text')
+                              .mb-3.row
+                                label.col-lg-4.col-form-label
+                                  | Localiza&ccedil;&atilde;o
+                                  small.text-muted.d-block Informe a sua localiza&ccedil;&atilde;o
+                                .col-lg-8
+                                  input.form-control(type='text')
+                              .mb-3
+                                .form-check
+                                  input#checkaddres.form-check-input(type='checkbox', value='', checked='checked')
+                                  label.form-check-label(for='checkaddres')
+                                    | Salve este novo endere&ccedil;o para o futuro
+                                    | envio
+                              .text-end.btn-page.mb-0.mt-4
+                                button.btn.btn-outline-secondary(type='button', data-bs-toggle='collapse', data-bs-target='.multi-collapse', aria-expanded='false', aria-controls='multiCollapseExample1 multiCollapseExample2')
+                                  | Cancel
+                                button.btn.btn-primary(onclick="change_tab('#ecomtab-3')")
+                                  | Salvar e entregar neste endere&ccedil;o
+                    .d-flex.justify-content-end.mb-3
+                      a.btn.btn-link-primary(href='/checkout')
+                        i.ti.ti-arrow-narrow-left.align-text-bottom.me-2
+                        | Voltar para o carinho
+                  .col-xl-4
+                    .card
+                      .card-body
+                        button.btn.btn-sm.btn-link-secondary(type='button', data-bs-toggle='modal', data-bs-target='#couponModal')
+                          | Tem um c&oacute;digo de cupom?
+                        .input-group.my-2
+                          input.form-control(type='text', placeholder='Cupom de desconto')
+                          button.btn.btn-outline-secondary(type='button')
+                            | Aplicar
+                    .card
+                      .card-header
+                        h5 Resumo do pedido
+                      .card-body.p-0
+                        ul.list-group.list-group-flush
+                          each item2 in userCart.products
+                            li.list-group-item
+                              .d-flex.align-items-start
+                                img.bg-light.rounded.img-fluid.wid-60.flex-shrink-0(src=`/img/products/${item2.product.imageCover}`, alt='User image')
+                                .flex-grow-1.mx-2
+                                  h5.mb-1  #{item2.product.name}  
+                                  h5.mb-1
+                                    b #{item2.product.priceDiscount || item2.product.price} MZN
+                                    if item2.product.priceDiscount 
+                                      span.text-sm.text-muted.text-decoration-line-through #{item2.product.price} MZN
+                                a.avtar.avtar-s.btn-link-danger.btn-pc-default.delete-from-cart(data-cart-id=userCart._id data-product-id=item2.product._id)
+                                  i.ti.ti-trash.f-20
+                          li.list-group-item
+                            .float-end
+                              h5.mb-0 -
+                            span.text-muted Sub Total
+                          li.list-group-item
+                            .float-end
+                              h5.mb-0 -
+                            span.text-muted Entrega estimada
+                          li.list-group-item
+                            .float-end
+                              h5.mb-0 -
+                            span.text-muted Cr&eacute;dito
+                    .card
+                      .card-body.py-2
+                        ul.list-group.list-group-flush
+                          li.list-group-item.px-0
+                            .float-end
+                              h5.mb-0 #{userCart && userCart.totalPrice ? userCart.totalPrice : 0} MZN MZN
+                            h5.mb-0.d-inline-block Total
+                    .d-flex.align-items-center.text-muted.my-4
+                      span.text-muted.text-sm.w-100
+                        | Encomendas seguras. Retornos f&aacute;ceis. 100% Atentico
+                        | produtos.
+              #ecomtab-3.tab-pane(role='tabpanel', aria-labelledby='ecomtab-tab-3')
+                .card-body
+                  .row
+                    .col-xl-8
+                      .card
+                        .card-header
+                          .row.align-items-center.my-2
+                            .col
+                              .progress(style='height: 6px')
+                                .progress-bar.bg-primary(style='width: 99%')
+                            .col-auto
+                              p.mb-0.h6 Passo 3
+                        .card-body.border-bottom
+                          h5 Encomendar
+                        .card-body
+                          .address-check.border.rounded.p-3
+                            .form-check
+                              input.form-check-input.input-primary(type='radio', name='radio11', checked='')
+                              label.form-check-label.d-block
+                                span.row.align-items-center.justify-content-between
+                                  span.col-6
+                                    span.h6.mb-0.d-block
+                                      | Alberto Dgedge
+                                      small.text-muted (Casa)
+                                      span.badge.bg-primary.rounded-pill Padr&atilde;o
+                                  span.col-6.text-end
+                                    button.btn.btn-primary(onclick="change_tab('#ecomtab-2')")
+                                      i.ti.ti-edit-circle.align-text-bottom.me-1
+                                      | Trocar
+                                span.text-muted.address-details Mercado 19 De outubro - Laulane
+                                span.row.align-items-center.justify-content-between
+                                  span.col-6
+                                    span.text-muted.mb-0 +258 866732677
+                      .d-flex.justify-content-end.mb-3
+                        button.btn.btn-link-primary
+                          i.ti.ti-arrow-narrow-left.align-text-bottom.me-2
+                          | Voltar para Informa&ccedil;&otilde;es de envio
+                    .col-xl-4
+                      .card
+                        .card-body
+                          button.btn.btn-sm.btn-link-secondary(type='button', data-bs-toggle='modal', data-bs-target='#couponModal')
+                            | Tem um c&oacute;digo de cupom?
+                          .input-group.my-2
+                            input.form-control(type='text', placeholder='Discount Coupon')
+                            button.btn.btn-outline-secondary(type='button')
+                              | Aplicar
+                      .card
+                        .card-header
+                          h5 Resumo do pedido
+                        .card-body.p-0
+                          ul.list-group.list-group-flush
+                            each item1 in userCart.products
+                              li.list-group-item
+                                .d-flex.align-items-start
+                                  img.bg-light.rounded.img-fluid.wid-60.flex-shrink-0(src=`/img/products/${item1.product.imageCover}`, alt='User image')
+                                  .flex-grow-1.mx-2
+                                    h5.mb-1 #{item1.product.name}
+                                    h5.mb-1
+                                      b #{item1.product.priceDiscount || item1.product.price} MZN
+                                      if item1.product.priceDiscount 
+                                        span.text-sm.text-muted.text-decoration-line-through #{item1.product.price} MZN
+                                  a.avtar.avtar-s.btn-link-danger.btn-pc-default.delete-from-cart(data-cart-id=userCart._id data-product-id=item1.product._id)
+                                    i.ti.ti-trash.f-20
+                            li.list-group-item
+                              .float-end
+                                h5.mb-0 -
+                              span.text-muted Sub Total
+                            li.list-group-item
+                              .float-end
+                                h5.mb-0 -
+                              span.text-muted Entrega estimada
+                            li.list-group-item
+                              .float-end
+                                h5.mb-0 -
+                              span.text-muted Cr&eacute;dito
+                      .card
+                        .card-body.py-2
+                          ul.list-group.list-group-flush
+                            li.list-group-item.px-0
+                              .float-end
+                                h5.mb-0 #{userCart && userCart.totalPrice ? userCart.totalPrice : 0} MZN
+                              h5.mb-0.d-inline-block Total
+                      .d-flex.align-items-center.text-muted.my-4
+                        span.text-muted.text-sm.w-100
+                          | Encomendas seguras. Retornos f&aacute;ceis. 100% Atentico
+                          | produtos.
+                      .d-grid.mb-3
+                        button.btn.btn-primary.btn-create-order( disabled=userCart && userCart.products && userCart.products.length > 0 ? false : true)
+                          | Encomendar
+          // [ sample-page ] end
+        // [ Main Content ] end
+    // Modal
+    #couponModal.modal.fade(tabindex='-1', aria-hidden='true')
+      .modal-dialog.modal-lg.modal-dialog-centered
+        .modal-content
+          .modal-header
+            h4.calendar-modal-title.f-w-600.text-truncate
+              | Festival gift for your
+            a.avtar.avtar-s.btn-link-danger.btn-pc-default(href='#', data-bs-dismiss='modal')
+              i.ti.ti-x.f-20
+          .modal-body
+            .row
+              .col-sm-6
+                .card.my-2.coupon-card.bg-warning.small-coupon-card
+                  .card-body.py-2
+                    .d-flex.align-items-center.justify-content-between
+                      div
+                        h4.mb-0.text-white Up to 50% Off
+                        button.btn.btn-sm.btn-coupon.mt-2
+                          | ABLPRO50
+                      img.img-fluid(src='/images/application/img-coupon-1.png', alt='img')
+              .col-sm-6
+                .card.my-2.coupon-card.bg-success.small-coupon-card
+                  .card-body.py-2
+                    .d-flex.align-items-center.justify-content-between
+                      div
+                        h4.mb-0.text-white Festival Fires
+                        button.btn.btn-sm.btn-coupon.mt-2
+                          | FLAT05
+                      img.img-fluid(src='/images/application/img-coupon-2.png', alt='img')
+            .overflow-hidden
+              .coupon-label.coupon-label-primary
+                .d-flex.align-items-center
+                  .avtar.bg-light-primary
+                    i.ti.ti-gift.f-22
+                  .flex-grow-1.mx-3
+                    h5.mb-1 Get $150 off on your subscription
+                    p.mb-0.text-sm.text-muted
+                      | When you subscribe to the unlimited consultation plan on
+                      | berry.
+                  button.btn.coupon-btn.btn-primary SUB150
+              .coupon-label.coupon-label-warning
+                .d-flex.align-items-center
+                  .avtar.bg-light-warning
+                    i.ti.ti-trophy.f-22
+                  .flex-grow-1.mx-3
+                    h5.mb-1 Save up to $200
+                    p.mb-0.text-sm.text-muted
+                      | Make 4 play store recharge code purchases &amp; save up to
+                      | $200
+                  button.btn.coupon-btn.btn-warning UPTO200

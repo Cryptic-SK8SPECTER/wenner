@@ -1,0 +1,99 @@
+.photo_submit {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 300px;
+    height: 180px;
+    background: #f8f8f8;
+    border: 3px dashed #DADFE3;
+    border-radius: 8px;
+  }
+  .photo_submit:hover {
+    cursor: pointer;
+    background: #ebebeb;
+  }
+  .photo_submit:nth-child(2),
+  .photo_submit:nth-child(4) {
+    margin-left: 1rem;
+  }
+  .photo_submit:nth-child(3),
+  .photo_submit:nth-child(4) {
+    margin-top: 1rem;
+  }
+  .photo_submit.photo_submit--image {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+  .photo_submit.photo_submit--image:hover {
+    cursor: default;
+  }
+  .photo_submit-input {
+    display: none;
+  }
+  .photo_submit-plus {
+    position: relative;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: cadetblue;
+    pointer-events: none;
+  }
+  .photo_submit-plus:after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-46%, -52%);
+    content: '+';
+    font-size: 36px;
+    color: #fff;
+  }
+  .photo_submit--image .photo_submit-plus {
+    display: none;
+  }
+  .photo_submit-uploadLabel {
+    margin-top: 1rem;
+    font-size: 21px;
+    color: cadetblue;
+    letter-spacing: 0.03em;
+    pointer-events: none;
+  }
+  .photo_submit--image .photo_submit-uploadLabel {
+    display: none;
+  }
+  .photo_submit-delete {
+    display: none;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 24px;
+    height: 24px;
+    background: #f8f8f8;
+    border-radius: 50%;
+    text-indent: -9999px;
+    cursor: pointer;
+  }
+  .photo_submit-delete:before,
+  .photo_submit-delete:after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 2px;
+    height: 12px;
+    background-color: cadetblue;
+    content: '';
+  }
+  .photo_submit-delete:before {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+  .photo_submit-delete:after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+  .photo_submit-delete:hover {
+    background: #ccc;
+  }
+  .photo_submit--image .photo_submit-delete {
+    display: inline-block;
+  }

@@ -1,0 +1,148 @@
+extends base
+
+block append head
+  script(src='/js/plugins/simple-datatables.js')
+  script.
+      document.addEventListener('DOMContentLoaded', () => {
+        const modal = document.getElementById('cust-modal');
+        
+          modal.addEventListener('show.bs.modal', (event) => {
+            // Botão que disparou o modal
+            const button = event.relatedTarget;
+
+            // Extrair informações dos atributos data-
+            const name = button.getAttribute('data-name');
+            const description = button.getAttribute('data-description');
+            const category = button.getAttribute('data-category');
+            const price = button.getAttribute('data-price');
+            const quantity = button.getAttribute('data-quantity');
+            const image = button.getAttribute('data-image');
+            const status = button.getAttribute('data-status');
+
+            // Preencher os elementos do modal
+            document.getElementById('modal-product-name').textContent = name;
+            document.getElementById('modal-product-description').textContent = description;
+            document.getElementById('modal-product-category').textContent = category;
+            document.getElementById('modal-product-price').textContent = price;
+            document.getElementById('modal-product-quantity').textContent = quantity;
+            document.getElementById('modal-product-image').src = image;
+            document.getElementById('modal-product-status').textContent = status;
+
+            const statusElement = document.getElementById('modal-product-status');
+            if (status) {
+              statusElement.className = 'badge bg-success';
+            } else {
+              statusElement.className = 'badge bg-danger';
+            }
+          });
+      });
+
+  script.
+    document.addEventListener('DOMContentLoaded', () => {
+        const dataTable = new simpleDatatables.DataTable("#pc-dt-simple", {
+        sortable: false,
+        perPage: 5,
+        });
+    });
+
+block content
+    .pc-container
+      .pc-content
+        // [ breadcrumb ] start
+        .page-header
+          .page-block
+            .row.align-items-center
+              .col-md-12
+                ul.breadcrumb
+              .col-md-12
+                .page-header-title
+                  h2.mb-0 Lista de Acess&oacute;rios
+        // [ breadcrumb ] end
+        // [ Main Content ] start
+        .row
+          // [ sample-page ] start
+          .col-sm-12
+            .card.table-card
+              .card-body
+                .text-end.p-4.pb-sm-2
+                  a.btn.btn-dark.d-inline-flex.align-items-center.gap-2(href='/product-add')
+                    i.ti.ti-plus.f-18
+                    |  Adicionar Acess&oacute;rio
+                .table-responsive
+                  table#pc-dt-simple.table.table-hover
+                    thead
+                      tr
+                        th.text-end #
+                        th Detalhe do Acess&oacute;rio
+                        th Categoria
+                        th.text-end Pre&ccedil;o
+                        th.text-end Qty
+                        th Status
+                        th.text-center Ac&ccedil;&otilde;es
+                    tbody
+                      each product, index in products
+                        tr
+                          td.text-end #{index + 1}
+                          td
+                            .row
+                              .col-auto.pe-0
+                                img.wid-40.rounded(src=`/img/products/${product.imageCover}`, alt='user-image')
+                              .col
+                                h6.mb-1= product.name
+                                p.text-muted.f-12.mb-0= product.description
+                          td= product.category
+                          td.text-end= product.price
+                          td.text-end= product.stockQuantity
+                          td
+                            if product.active
+                              span.badge.bg-light-success.f-12 Disponível
+                            else
+                              span.badge.bg-light-danger.f-12 Indisponível
+                          td.text-center
+                            ul.list-inline.me-auto.mb-0
+                              li.list-inline-item.align-bottom(data-bs-toggle='tooltip', title='View')
+                                a.avtar.avtar-xs.btn-link-secondary.btn-pc-default(href='#', data-bs-toggle='modal', data-bs-target='#cust-modal' data-id=product._id, data-name=product.name, data-description=product.description, data-category=product.category, data-price=product.price,  data-quantity=product.stockQuantity,   data-image=`/img/products/${product.imageCover}`,  data-status=product.active )
+                                  i.ti.ti-eye.f-18
+                              li.list-inline-item.align-bottom(data-bs-toggle='tooltip', title='Edit')
+                                a.avtar.avtar-xs.btn-link-success.btn-pc-default(href='#')
+                                  i.ti.ti-edit-circle.f-18
+                              li.list-inline-item.align-bottom(data-bs-toggle='tooltip', title='Delete')
+                                a.avtar.avtar-xs.btn-link-danger.btn-pc-default.btn-delete-product(href='#' data-productlist-id=product._id)
+                                  i.ti.ti-trash.f-18
+                     
+                     
+          // [ sample-page ] end
+        // [ Main Content ] end
+    #cust-modal.modal.fade(data-bs-keyboard='false', tabindex='-1', aria-hidden='true')
+      .modal-dialog.modal-lg.modal-dialog-centered.modal-dialog-scrollable
+        .modal-content
+          .modal-header.border-0.pb-0
+            h5.mb-0 Product Details
+            a.avtar.avtar-s.btn-link-danger.btn-pc-default.ms-auto(href='#', data-bs-dismiss='modal')
+              i.ti.ti-x.f-20
+          .modal-body
+            .row.align-items-center
+              .col-sm-4
+                .bg-light.rounded.position-relative
+                  .text-center
+                    .chat-avtar.d-inline-flex.mx-auto
+                      img.img-fluid.rounded#modal-product-image( alt='User image')
+                  .position-absolute.end-0.top-0.p-3
+                    span.badge#modal-product-status
+              .col-sm-8
+                h5#modal-product-name
+                p.text-muted#modal-product-description
+                 
+                .table-responsive
+                  table.table.w-auto.table-borderless
+                    tbody
+                      tr
+                        td.text-muted.py-1 Categoria
+                        td.py-1#modal-product-category
+                      tr
+                        td.text-muted.py-1 Qty
+                        td.py-1#modal-product-quantity
+                      tr
+                        td.text-muted.py-1 Preço
+                        td.py-1
+                          h5.mb-0#modal-product-price MZN 

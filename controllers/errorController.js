@@ -1,7 +1,7 @@
 const AppError = require('./../utils/appError');
 
 const handleCastErrorDB = err => {
-  const message = `Invalid ${err.path}: ${err.value}.`;
+  const message = `Inválido ${err.path}: ${err.value}.`;
   return new AppError(message, 400);
 };
 
@@ -9,7 +9,7 @@ const handleDuplicateFieldsDB = err => {
   const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
   console.log(value);
 
-  const message = `Valor do campo duplicado: ${value}. Por favor, use outro valor!`;
+  const message = `Valor de campo duplicado: ${value}. Por favor, use outro valor!`;
   return new AppError(message, 400);
 };
 
@@ -21,10 +21,10 @@ const handleValidationErrorDB = err => {
 };
 
 const handleJWTError = () =>
-  new AppError('Token inválido. Por favor, faça login novamente!', 401);
+  new AppError('Token inválido. Faça login novamente!', 401);
 
 const handleJWTExpiredError = () =>
-  new AppError('Seu token expirou! Por favor, faça login novamente.', 401);
+  new AppError('Seu token expirou! Faça login novamente.', 401);
 
 const sendErrorDev = (err, req, res) => {
   // A) API
@@ -61,7 +61,7 @@ const sendErrorProd = (err, req, res) => {
     // 2) Send generic message
     return res.status(500).json({
       status: 'error',
-      message: 'Algo deu errado!'
+      message: 'Algo deu muito errado!'
     });
   }
 

@@ -1,7 +1,7 @@
 {
-  "name": "natours",
+  "name": "wenner",
   "version": "1.0.0",
-  "description": "Learning node, express and mongoDB",
+  "description": "Building wenner's project with node",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -11,7 +11,7 @@
     "watch:js": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js",
     "build:js": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js"
   },
-  "author": "Jonas Schmedtmann",
+  "author": "Alberto Dgedge",
   "license": "ISC",
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
@@ -50,6 +50,6 @@
     "prettier": "^1.17.0"
   },
   "engines": {
-    "node": ">=10.0.0"
+    "node": "18.x"
   }
 }

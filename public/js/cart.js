@@ -6,7 +6,7 @@ export const addToCart = async (product, quantity) => {
   try {
     const res = await axios({
       method: 'POST',
-      url: 'http://127.0.0.1:3000/api/v1/carts/add-to-cart',
+      url: '/api/v1/carts/add-to-cart',
       data: {
         products: [
           {
@@ -29,7 +29,7 @@ export const getMyCart = async () => {
   try {
     const res = await axios({
       method: 'GET',
-      url: 'http://127.0.0.1:3000/api/v1/carts',
+      url: '/api/v1/carts',
       data
     });
 
@@ -42,7 +42,7 @@ export const deleteFromProduct = async (cartId, productId) => {
   try {
     const res = await axios({
       method: 'DELETE',
-      url: `http://127.0.0.1:3000/api/v1/carts/cartId/${cartId}/products/${productId}`,
+      url: `/api/v1/carts/cartId/${cartId}/products/${productId}`,
     });
 
     if (res.status === 204) {
@@ -61,7 +61,7 @@ export const updateCartQuantity = async (productId, quantity) => {
   try {
     const res = await axios({
       method: 'PATCH',
-      url: `http://127.0.0.1:3000/api/v1/carts/update`, // Substitua pela URL da sua API
+      url: `/api/v1/carts/update`, // Substitua pela URL da sua API
       data: {
         productId,
         quantity

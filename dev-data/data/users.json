@@ -167,5 +167,17 @@
     "address": "Rua das Flores, 45",
     "birthDate": "1990-02-22",
     "startDate": "2024-11-01"
+  },
+  {
+    "name": "Alberto Dgedge",
+    "email": "albertoveloz234@gmail.com",
+    "role": "admin",
+    "active": true,
+    "photo": "user-20.jpg",
+    "password": "$2a$12$uA9FsDw63v6dkJKGlLQ/8ufYBs8euB7kqIQewyYlZXU5azEKeLEky",
+    "contact": "846570328",
+    "address": "Rua das Flores, 45",
+    "birthDate": "1990-02-22",
+    "startDate": "2024-11-01"
   }
 ]

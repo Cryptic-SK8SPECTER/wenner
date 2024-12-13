@@ -6,7 +6,7 @@ export const addNewProduct = async data => {
   try {
     const res = await axios({
       method: 'POST',
-      url: 'http://127.0.0.1:3000/api/v1/products',
+      url: '/api/v1/products',
       data
     });
 
@@ -22,7 +22,7 @@ export const deleteProduct = async (productId) => {
   try {
     const res = await axios({
       method: 'DELETE',
-      url: `http://127.0.0.1:3000/api/v1/products/${productId}`,
+      url: `/api/v1/products/${productId}`,
     });
 
     if (res.status === 204) {

@@ -13,7 +13,7 @@
     "imageCover": "img-prod-1.jpg",
     "statusDiscount": "sim",
     "images": ["img-prod-2.jpg", "img-prod-3.jpg", "img-prod-4.jpg"],
-    "sizes": ["Único"],
+    "sizes": ["XXL"],
     "colors": "#000000,#FFFFFF,#FFD700",
     "createdAt": "2024-11-25T00:00:00.000Z",
     "active": true
@@ -32,7 +32,7 @@
     "imageCover": "img-prod-4.jpg",
     "statusDiscount": "sim",
     "images": ["img-prod-3.jpp", "img-prod-4.jpg", "img-prod-1.jpg"],
-    "sizes": ["Pequeno", "Médio", "Grande"],
+    "sizes": ["XL", "M", "L"],
     "colors": "#FF5733,#C70039",
     "createdAt": "2024-11-25T00:00:00.000Z",
     "active": true
@@ -51,7 +51,7 @@
     "imageCover": "img-prod-3.jpg",
     "statusDiscount": "não",
     "images": ["img-prod-2.jpg", "img-prod-3.jpg", "img-prod-2.jpg"],
-    "sizes": ["Único"],
+    "sizes": ["XXL"],
     "colors": "#000000,#C70039,#FFD700",
     "createdAt": "2024-11-25T00:00:00.000Z",
     "active": true
@@ -70,7 +70,7 @@
     "imageCover": "img-prod-2.jpg",
     "statusDiscount": "sim",
     "images": ["img-prod-1.jpg", "img-prod-3.jpg", "img-prod-4.jpg"],
-    "sizes": ["Único"],
+    "sizes": ["XXL"],
     "colors": "#FFD700,#00FF00,#0000FF",
     "createdAt": "2024-11-25T00:00:00.000Z",
     "active": true
@@ -89,7 +89,7 @@
     "imageCover": "img-prod-4.jpg",
     "statusDiscount": "não",
     "images": ["img-prod-2", "img-prod-4.jpg", "img-prod-3.jpg"],
-    "sizes": ["Único"],
+    "sizes": ["XXL"],
     "colors": "#000000,#FF0000,#FFD700",
     "createdAt": "2024-11-25T00:00:00.000Z",
     "active": true

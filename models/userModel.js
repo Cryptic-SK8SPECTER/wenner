@@ -16,9 +16,9 @@ const userSchema = new mongoose.Schema({
     validate: [validator.isEmail, 'Forneça um e-mail válido']
   },
   contact: {
-    type: String,
-    required: [true, 'Por favor, forneça seu contacto'],
-    unique: true
+    type: String
+    // required: [true, 'Por favor, forneça seu contacto'],
+    // unique: true
   },
   address: {
     type: String,
@@ -73,17 +73,17 @@ const userSchema = new mongoose.Schema({
   }
 });
 
-userSchema.pre('save', async function(next) {
-  // Only run this function if password was actually modified
-  if (!this.isModified('password')) return next();
+// userSchema.pre('save', async function(next) {
+//   // Only run this function if password was actually modified
+//   if (!this.isModified('password')) return next();
 
-  // Hash the password with cost of 12
-  this.password = await bcrypt.hash(this.password, 12);
+//   // Hash the password with cost of 12
+//   this.password = await bcrypt.hash(this.password, 12);
 
-  // Delete passwordConfirm field
-  this.passwordConfirm = undefined;
-  next();
-});
+//   // Delete passwordConfirm field
+//   this.passwordConfirm = undefined;
+//   next();
+// });
 
 userSchema.pre('save', function(next) {
   if (!this.isModified('password') || this.isNew) return next();
@@ -105,19 +105,19 @@ userSchema.methods.correctPassword = async function(
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 
-userSchema.methods.changedPasswordAfter = function(JWTTimestamp) {
-  if (this.passwordChangedAt) {
-    const changedTimestamp = parseInt(
-      this.passwordChangedAt.getTime() / 1000,
-      10
-    );
+// userSchema.methods.changedPasswordAfter = function(JWTTimestamp) {
+//   if (this.passwordChangedAt) {
+//     const changedTimestamp = parseInt(
+//       this.passwordChangedAt.getTime() / 1000,
+//       10
+//     );
 
-    return JWTTimestamp < changedTimestamp;
-  }
+//     return JWTTimestamp < changedTimestamp;
+//   }
 
-  // False means NOT changed
-  return false;
-};
+//   // False means NOT changed
+//   return false;
+// };
 
 userSchema.methods.createPasswordResetToken = function() {
   const resetToken = crypto.randomBytes(32).toString('hex');

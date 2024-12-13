@@ -6,7 +6,7 @@ export const singupuser = async (name, email, contact, address, birthDate, passw
   try {
     const res = await axios({
       method: 'POST',
-      url: 'http://127.0.0.1:3000/api/v1/users/signup',
+      url: '/api/v1/users/signup',
       data:{
         name,
         email,
@@ -29,7 +29,7 @@ export const deleteUser = async (customerId) => {
   try {
     const res = await axios({
       method: 'DELETE',
-      url: `http://127.0.0.1:3000/api/v1/users/${customerId}`,
+      url: `/api/v1/users/${customerId}`,
     });
 
     if (res.status === 204) {

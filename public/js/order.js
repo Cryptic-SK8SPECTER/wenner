@@ -7,7 +7,7 @@ export const confirmOrder = async (orderId) => {
   try {
     const res = await axios({
       method: 'PATCH',
-      url: `http://127.0.0.1:3000/api/v1/orders/${orderId}`,
+      url: `/api/v1/orders/${orderId}`,
       data:{
         status: 'entregue'
       }
@@ -29,7 +29,7 @@ export const createOrder = async () => {
   try {
     const res = await axios({
       method: 'POST',
-      url: `http://127.0.0.1:3000/api/v1/orders`,
+      url: `/api/v1/orders`,
     });
 
     if (res.data.status === 'success') {
@@ -48,7 +48,7 @@ export const deleteOrder = async (orderId) => {
   try {
     const res = await axios({
       method: 'DELETE',
-      url: `http://127.0.0.1:3000/api/v1/orders/${orderId}`,
+      url: `/api/v1/orders/${orderId}`,
     });
 
     if (res.status === 204) {
@@ -67,7 +67,7 @@ export const purchaseProduct = async (productId, quantity) => {
   try {
     const res = await axios({
       method: 'POST',
-      url: 'http://127.0.0.1:3000/api/v1/orders/purchase',
+      url: '/api/v1/orders/purchase',
       data: {
         productId,
         quantity,

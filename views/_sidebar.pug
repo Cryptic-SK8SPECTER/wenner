@@ -15,7 +15,7 @@ nav.pc-sidebar
                     img.user-avtar.wid-45.rounded-circle(src=`/img/users/${user.photo}` alt='user-image')
                   .flex-grow-1.ms-3.me-2
                     h6.mb-0=user.name.split(' ')[0]
-                    small=user.role
+                    small=small=user.role === 'user' ? 'cliente' : user.role
                   a.btn.btn-icon.btn-link-secondary.avtar(data-bs-toggle='collapse', href='#pc_sidebar_userlink')
                     svg.pc-icon
                       use(xlink:href='#custom-sort-outline')

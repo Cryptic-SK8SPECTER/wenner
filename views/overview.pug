@@ -145,26 +145,15 @@ block content
                 .card
                   .card-body.p-3
                     .d-sm-flex.align-items-center
-                      ul.list-inline.me-auto.my-1
-                        li.list-inline-item
+                      ul.d-flex.list-inline.my-1
+                        li.list-inline-item.me-auto
                           .form-search
                             i.ti.ti-search
-                            input.form-control(type='search', placeholder='Search Products')
-                      ul.list-inline.ms-auto.my-1
-                        li.list-inline-item
-                          select.form-select
-                            option Pre&ccedil;o: alto a baixo
-                            option Pre&ccedil;o: baixo a alto
-                            option Popularidade
-                            option Desconto
-                            option Novidades
-                        li.list-inline-item.align-bottom
+                            input.form-control(type='search', placeholder='Pesquisar por acessórios')
+                        li.list-inline-item.ms-auto
                           a.d-inline-flex.d-xxl-none.btn.btn-link-secondary.align-items-center(href='#', data-bs-toggle='offcanvas', data-bs-target='#offcanvas_mail_filter')
                             i.ti.ti-filter.f-16
-                            |  Filtro
-                          a.d-none.d-xxl-inline-flex.btn.btn-link-secondary.align-items-center(href='#', data-bs-toggle='collapse', data-bs-target='#ecom-filter')
-                            i.ti.ti-filter.f-16
-                            |  Filtro
+                            |  Filtro      
                 .row
                    each product, index in products  
                     .col-sm-6.col-xl-4

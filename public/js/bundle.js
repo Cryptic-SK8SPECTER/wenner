@@ -1919,7 +1919,7 @@ var deleteProduct = exports.deleteProduct = /*#__PURE__*/function () {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.uploadUserData = exports.updateSettings = void 0;
+exports.uploadUserData = exports.updateSettings = exports.resetPassword = void 0;
 var _axios = _interopRequireDefault(require("axios"));
 var _alerts = require("./alerts");
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
@@ -2000,6 +2000,46 @@ var uploadUserData = exports.uploadUserData = /*#__PURE__*/function () {
   }));
   return function uploadUserData(_x3, _x4, _x5, _x6) {
     return _ref2.apply(this, arguments);
+  };
+}();
+var resetPassword = exports.resetPassword = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee3(token, password, passwordConfirm) {
+    var res, _err$response;
+    return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+      while (1) switch (_context3.prev = _context3.next) {
+        case 0:
+          _context3.prev = 0;
+          _context3.next = 3;
+          return (0, _axios.default)({
+            method: 'PATCH',
+            url: "/api/v1/users/resetPassword/".concat(token),
+            data: {
+              password: password,
+              passwordConfirm: passwordConfirm
+            }
+          });
+        case 3:
+          res = _context3.sent;
+          if (res.data.status === 'success') {
+            (0, _alerts.showAlert)('success', 'Senha redefinida com sucesso!');
+            window.setTimeout(function () {
+              location.assign('/login');
+            }, 1500);
+          }
+          _context3.next = 10;
+          break;
+        case 7:
+          _context3.prev = 7;
+          _context3.t0 = _context3["catch"](0);
+          (0, _alerts.showAlert)('error', ((_err$response = _context3.t0.response) === null || _err$response === void 0 || (_err$response = _err$response.data) === null || _err$response === void 0 ? void 0 : _err$response.message) || 'Erro ao redefinir a senha.');
+        case 10:
+        case "end":
+          return _context3.stop();
+      }
+    }, _callee3, null, [[0, 7]]);
+  }));
+  return function resetPassword(_x7, _x8, _x9) {
+    return _ref3.apply(this, arguments);
   };
 }();
 },{"axios":"../../node_modules/axios/index.js","./alerts":"alerts.js"}],"user.js":[function(require,module,exports) {
@@ -2740,7 +2780,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56597" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51168" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

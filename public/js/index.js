@@ -112,7 +112,7 @@ if (ResetPasswordForm)
     const password = document.getElementById('password').value;
     const passwordConfirm = document.getElementById('passwordConfirm').value;
     const token = document.getElementById('token').value;
-    resetPassword(password, passwordConfirm, token);
+    resetPassword(token, password, passwordConfirm);
   });
 
 if (forgotPasswordForm)

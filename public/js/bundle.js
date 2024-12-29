@@ -2003,7 +2003,7 @@ var uploadUserData = exports.uploadUserData = /*#__PURE__*/function () {
   };
 }();
 var resetPassword = exports.resetPassword = /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee3(password, passwordConfirm, token) {
+  var _ref3 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee3(token, password, passwordConfirm) {
     var res, _err$response;
     return _regeneratorRuntime().wrap(function _callee3$(_context3) {
       while (1) switch (_context3.prev = _context3.next) {
@@ -2574,7 +2574,7 @@ if (ResetPasswordForm) ResetPasswordForm.addEventListener('submit', function (e)
   var password = document.getElementById('password').value;
   var passwordConfirm = document.getElementById('passwordConfirm').value;
   var token = document.getElementById('token').value;
-  (0, _updateSettings.resetPassword)(password, passwordConfirm, token);
+  (0, _updateSettings.resetPassword)(token, password, passwordConfirm);
 });
 if (forgotPasswordForm) forgotPasswordForm.addEventListener('submit', function (e) {
   e.preventDefault();

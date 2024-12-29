@@ -45,7 +45,7 @@ export const uploadUserData = async (name, email, password, passwordConfirm) => 
   }
 };
 
-export const resetPassword = async (token, password, passwordConfirm) => {
+export const resetPassword = async (password, passwordConfirm, token) => {
   try {
     const res = await axios({
       method: 'PATCH',

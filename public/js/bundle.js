@@ -2003,7 +2003,7 @@ var uploadUserData = exports.uploadUserData = /*#__PURE__*/function () {
   };
 }();
 var resetPassword = exports.resetPassword = /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee3(token, password, passwordConfirm) {
+  var _ref3 = _asyncToGenerator(/*#__PURE__*/_regeneratorRuntime().mark(function _callee3(password, passwordConfirm, token) {
     var res, _err$response;
     return _regeneratorRuntime().wrap(function _callee3$(_context3) {
       while (1) switch (_context3.prev = _context3.next) {

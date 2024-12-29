@@ -115,6 +115,7 @@ if (ResetPasswordForm)
     resetPassword(token, password, passwordConfirm);
   });
 
+
 if (forgotPasswordForm)
   forgotPasswordForm.addEventListener('submit', e => {
     e.preventDefault();
